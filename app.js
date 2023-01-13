@@ -5,6 +5,12 @@ const mogoonse = require("mongoose");
 //Routes
 const superAdminRoutes = require("./routes/super-admin-routes");
 const FarmRoutes=require("./routes/farm-routes");
+const AnimalRoutes=require("./routes/animal-routes.js")
+const SlaughterHouseRoutes=require("./routes/slaughter-house-routes.js");
+const DistributorRoutes=require("./routes/distributor-routes");
+const RetailorRoutes=require("./routes/retailor-routes.js")
+
+
 const UserRoutes=require("./routes/user-routes");
 
 //connect to mongodb server
@@ -19,6 +25,18 @@ app.use('/createnewadmin', superAdminRoutes);
 app.use('/createfarm', FarmRoutes);
 app.use('/getfarms', FarmRoutes);
 
+app.use('/createanimal', AnimalRoutes);
+app.use('/getanimals', AnimalRoutes);
+
+app.use('/createdistributor', DistributorRoutes);
+app.use('/getdistributors', DistributorRoutes);
+
+app.use('/createretailor', RetailorRoutes);
+app.use('/getretailors', RetailorRoutes);
+
+app.use('/createslaughterhouse', SlaughterHouseRoutes);
+app.use('/getslaughterhouses', SlaughterHouseRoutes);
+
 app.use('/createuser', UserRoutes)
 
 
@@ -26,6 +44,6 @@ app.use('/createuser', UserRoutes)
 mogoonse
   .connect(dbURI)
   .then(() => {
-    app.listen(5000, () => console.log("Conneted!!"));
+    app.listen(5000, () => console.log("Connected!!"));
   })
   .catch((err) => console.log(err)) ;
