@@ -6,5 +6,6 @@ router.post('/', AnimalController.create_animal);
 
 
 router.get('/', AnimalController.get_animals);
+router.get('/:id', AnimalController.getanimalById);
 
 module.exports = router;

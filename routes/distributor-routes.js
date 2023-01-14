@@ -6,5 +6,6 @@ router.post('/', DistributorController.create_distributor);
 
 
 router.get('/', DistributorController.get_distributors);
+router.get('/:id', DistributorController.getdistributorById);
 
 module.exports = router;

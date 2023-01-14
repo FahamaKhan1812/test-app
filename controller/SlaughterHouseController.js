@@ -1,4 +1,3 @@
-// controllers/farmController.js
 const SlaughterHouse = require('../models/SlaughterHouse');
 
 // Create a new SlaughterHouse
@@ -18,7 +17,7 @@ exports.create_slaughterhouse = async (req, res) => {
   }
 };
 
-// Get new farm
+// Get All Slaughter houses
 exports.get_slaughterhouses = async (req, res) => {
   try {
     const slaughterhouses = await SlaughterHouse.find();
@@ -29,3 +28,13 @@ exports.get_slaughterhouses = async (req, res) => {
 };
 
 
+//Get Slaughterhouse By Id
+exports.getSlaughterhouseById = async (req, res) => {
+    try {
+      const slaughterHouse = await SlaughterHouse.findById(req.params.id);
+      if(!slaughterHouse) return res.status(404).send("SlaughterHouse not found");
+      res.send(slaughterHouse);
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  };

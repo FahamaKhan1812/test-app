@@ -27,3 +27,14 @@ exports.get_farms = async (req, res) => {
 };
 
 
+
+//Get Farm By Id
+exports.getfarmById = async (req, res) => {
+  try {
+    const farm = await Farm.findById(req.params.id);
+    if(!farm) return res.status(404).send("Farm not found");
+    res.send(farm);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};

@@ -1,4 +1,3 @@
-// controllers/farmController.js
 const Retailor = require('../models/Retailor');
 
 //  Create a new distributor
@@ -17,7 +16,7 @@ exports.create_retailor = async (req, res) => {
   }
 };
 
-// Get new farm
+// Get All Retailors
 exports.get_retailors = async (req, res) => {
   try {
     const retailors = await Retailor.find();
@@ -28,3 +27,13 @@ exports.get_retailors = async (req, res) => {
 };
 
 
+//Get Retailor By Id
+exports.getretailorById = async (req, res) => {
+    try {
+      const retailor = await Retailor.findById(req.params.id);
+      if(!retailor) return res.status(404).send("retailor not found");
+      res.send(retailor);
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  };

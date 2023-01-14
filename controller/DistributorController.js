@@ -1,4 +1,3 @@
-// controllers/farmController.js
 const Distributor = require('../models/Distributor');
 
 //  Create a new distributor
@@ -17,7 +16,7 @@ exports.create_distributor = async (req, res) => {
   }
 };
 
-// Get new farm
+// Get All distributors
 exports.get_distributors = async (req, res) => {
   try {
     const distributors = await Distributor.find();
@@ -28,3 +27,13 @@ exports.get_distributors = async (req, res) => {
 };
 
 
+//Get Distributor By Id
+exports.getdistributorById = async (req, res) => {
+    try {
+      const distributor = await Distributor.findById(req.params.id);
+      if(!distributor) return res.status(404).send("distributor not found");
+      res.send(distributor);
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  };

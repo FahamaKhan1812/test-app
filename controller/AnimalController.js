@@ -1,7 +1,6 @@
-// controllers/farmController.js
 const Animal = require('../models/Animal');
 
-// Create a new Farm
+// Create a new Animal
 exports.create_animal = async (req, res) => {
   const animal = new Animal({
     farm_id: req.body?.farm_id,
@@ -16,7 +15,7 @@ exports.create_animal = async (req, res) => {
   }
 };
 
-// Get new farm
+// Get All Animals
 exports.get_animals = async (req, res) => {
   try {
     const animals = await Animal.find();
@@ -27,3 +26,13 @@ exports.get_animals = async (req, res) => {
 };
 
 
+//Get Animal By Id
+exports.getanimalById = async (req, res) => {
+    try {
+      const animal = await Animal.findById(req.params.id);
+      if(!animal) return res.status(404).send("animal not found");
+      res.send(animal);
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  };

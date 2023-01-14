@@ -6,5 +6,7 @@ router.post('/', FarmController.create_farm);
 
 
 router.get('/', FarmController.get_farms);
+router.get('/:id', FarmController.getfarmById);
+
 
 module.exports = router;

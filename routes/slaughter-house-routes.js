@@ -6,5 +6,6 @@ router.post('/', SlaughterHouseController.create_slaughterhouse);
 
 
 router.get('/', SlaughterHouseController.get_slaughterhouses);
+router.get('/:id', SlaughterHouseController.getSlaughterhouseById);
 
 module.exports = router;
