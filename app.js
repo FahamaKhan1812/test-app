@@ -2,18 +2,6 @@ const express = require("express");
 const mogoose = require("mongoose");
 const { success, error } = require("consola");
 
-//Routes
-const superAdminRoutes = require("./routes/super-admin-routes");
-const FarmRoutes = require("./routes/farm-routes");
-const AnimalRoutes = require("./routes/animal-routes.js");
-const SlaughterHouseRoutes = require("./routes/slaughter-house-routes.js");
-const DistributorRoutes = require("./routes/distributor-routes");
-const RetailorRoutes = require("./routes/retailor-routes.js");
-const ButcherRoutes = require("./routes/butcher-routes.js");
-const ProductRoutes = require("./routes/product-routes.js");
-
-const UserRoutes = require("./routes/user-routes");
-
 //connect to mongodb server
 const dbURI =
   "mongodb+srv://fahama:YviAIPJlQUwbmwW1@final-year-project.3wxb73f.mongodb.net/FYP";
@@ -26,30 +14,22 @@ app.use("/api/users", require("./routes/user-routes"));
 // Farm Handler Middleware
 app.use("/api/farm", require("./routes/farm-routes"));
 
-app.use("/createanimal", AnimalRoutes);
-app.use("/getanimals", AnimalRoutes);
-app.use("/getanimalid", AnimalRoutes);
+// Animal Handler Middleware
+app.use("/api/animal", require("./routes/animal-routes"));
 
-app.use("/createdistributor", DistributorRoutes);
-app.use("/getdistributors", DistributorRoutes);
-app.use("/getdistributorid", DistributorRoutes);
+// Distributor Handler Middleware
+app.use("/api/distributor", require("./routes/distributor-routes"));
 
-app.use("/createretailor", RetailorRoutes);
-app.use("/getretailors", RetailorRoutes);
-app.use("/getretailorid", RetailorRoutes);
+// Slaughter House Handler Middleware
+app.use("/api/slaughterhouse", require("./routes/slaughter-house-routes"));
 
-app.use("/createslaughterhouse", SlaughterHouseRoutes);
-app.use("/getslaughterhouses", SlaughterHouseRoutes);
-app.use("/getslaughterhouseid", SlaughterHouseRoutes);
+// Retailor Handler Middleware
+app.use("/api/retailor", require("./routes/retailor-routes"));
 
-app.use("/createbutcher", ButcherRoutes);
-app.use("/getbutchers", ButcherRoutes);
-app.use("/getbutcherid", ButcherRoutes);
+// Butcher Handler Middleware
+app.use("/api/butcher", require("./routes/butcher-routes"));
 
-app.use("/createproduct", ProductRoutes);
-app.use("/getproducts", ProductRoutes);
-app.use("/getproductid", ProductRoutes);
-app.use("/updateproductid", ProductRoutes);
+app.use("/api/product",  require("./routes/product-routes"));
 
 // This will fire whenever an unknown endpoint is hit
 app.all("*", (req, res) => {
