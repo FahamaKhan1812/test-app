@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
-var jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 //Create a new User
 const userRegister = async (userDetails, role, res) => {
@@ -33,7 +33,7 @@ const userRegister = async (userDetails, role, res) => {
     });
 
     await newUser.save();
-    return res.status(201).json({
+    return res.status(200).json({
       message: "User is saved successfully",
       success: true,
     });
