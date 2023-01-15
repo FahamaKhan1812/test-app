@@ -1,5 +1,4 @@
-
-const Butcher = require('../models/Butcher');
+const Butcher = require("../models/Butcher");
 
 // Create a new Butcher
 exports.create_butcher = async (req, res) => {
@@ -10,9 +9,16 @@ exports.create_butcher = async (req, res) => {
   });
   try {
     await butcher.save();
-    res.send(butcher);
+    return res.status(200).json({
+      success: true,
+      message: [],
+      butcher,
+    });
   } catch (err) {
-    res.status(400).send(err);
+    return res.status(400).json({
+      success: false,
+      error: err,
+    });
   }
 };
 
@@ -20,20 +26,38 @@ exports.create_butcher = async (req, res) => {
 exports.get_butchers = async (req, res) => {
   try {
     const butchers = await Butcher.find();
-    res.send(butchers);
+    return res.status(200).json({
+      success: true,
+      message: [],
+      butchers,
+    });
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).json({
+      success: false,
+      error: err,
+    });
   }
 };
 
-
 //Get Butcher By Id
 exports.getbutcherById = async (req, res) => {
-    try {
-      const butcher = await Butcher.findById(req.params.id);
-      if(!butcher) return res.status(404).send("Butcher not found");
-      res.send(butcher);
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  };
+  try {
+    const butcher = await Butcher.findById(req.params.id);
+    if (!butcher)
+      return res.status(404).json({
+        success: false,
+        message: `No butcher is found with id ${req.params.id}`,
+      });
+    return res.status(200).json({
+      success: true,
+      message: [],
+      butcher,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: ["Server Error try again"],
+      error: err,
+    });
+  }
+};

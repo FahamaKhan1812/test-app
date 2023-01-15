@@ -10,9 +10,16 @@ exports.create_farm = async (req, res) => {
   });
   try {
     await farm.save();
-    res.send(farm);
+    return res.status(200).json({
+      success: true,
+      message: [],
+      farm,
+    });
   } catch (err) {
-    res.status(400).send(err);
+    return res.status(400).json({
+      success: false,
+      error: err,
+    });
   }
 };
 
@@ -20,9 +27,16 @@ exports.create_farm = async (req, res) => {
 exports.get_farms = async (req, res) => {
   try {
     const farms = await Farm.find();
-    res.send(farms);
+    return res.status(200).json({
+      success: true,
+      message: [],
+      farms,
+    });
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).json({
+      success: false,
+      error: err,
+    });
   }
 };
 
@@ -30,9 +44,21 @@ exports.get_farms = async (req, res) => {
 exports.getFarmById = async (req, res) => {
   try {
     const farm = await Farm.findById(req.params.id);
-    if(!farm) return res.status(404).send("Farm not found");
-    res.send(farm);
+    if (!farm)
+      return res.status(404).json({
+        success: false,
+        message: `No farm is found with id ${req.params.id}`,
+      });
+    return res.status(200).json({
+      success: true,
+      message: [],
+      farm,
+    });
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).json({
+      success: false,
+      message: ["Server Error try again"],
+      error: err,
+    });
   }
 };

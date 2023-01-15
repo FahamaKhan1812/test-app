@@ -1,4 +1,4 @@
-const Retailor = require('../models/Retailor');
+const Retailor = require("../models/Retailor");
 
 //  Create a new distributor
 exports.create_retailor = async (req, res) => {
@@ -6,13 +6,20 @@ exports.create_retailor = async (req, res) => {
     name: req.body?.name,
     username: req.body?.username,
     password: req.body?.password,
-    role:req.body?.name
+    role: req.body?.name,
   });
   try {
     await retailor.save();
-    res.send(retailor);
+    return res.status(200).json({
+      success: true,
+      message: [],
+      retailor,
+    });
   } catch (err) {
-    res.status(400).send(err);
+    return res.status(400).json({
+      success: false,
+      error: err,
+    });
   }
 };
 
@@ -20,20 +27,38 @@ exports.create_retailor = async (req, res) => {
 exports.get_retailors = async (req, res) => {
   try {
     const retailors = await Retailor.find();
-    res.send(retailors);
+    return res.status(200).json({
+      success: true,
+      message: [],
+      retailors,
+    });
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).json({
+      success: false,
+      error: err,
+    });
   }
 };
 
-
 //Get Retailor By Id
 exports.getretailorById = async (req, res) => {
-    try {
-      const retailor = await Retailor.findById(req.params.id);
-      if(!retailor) return res.status(404).send("retailor not found");
-      res.send(retailor);
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  };
+  try {
+    const retailor = await Retailor.findById(req.params.id);
+    if (!retailor)
+      return res.status(404).json({
+        success: false,
+        message: `No retailor is found with id ${req.params.id}`,
+      });
+    return res.status(200).json({
+      success: true,
+      message: [],
+      retailor,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: ["Server Error try again"],
+      error: err,
+    });
+  }
+};
