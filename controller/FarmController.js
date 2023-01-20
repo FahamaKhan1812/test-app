@@ -62,3 +62,31 @@ exports.getFarmById = async (req, res) => {
     });
   }
 };
+// Testing purpose
+// Get Animals Details By a Farm_uuid
+exports.getAnimalByFarm_uuid = async (req, res) => {
+  try {
+    const farm = await Farm.aggregate([
+     
+      {
+        $lookup: {
+          from: "animals",
+          localField: "farm_uuid",
+          foreignField: "farm_id",
+          as: "animalData",
+        },
+      },
+    ]);
+    return res.status(200).json({
+      success: true,
+      message: [],
+      farm,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: ["Server Error try again"],
+      error: err,
+    });
+  }
+};
