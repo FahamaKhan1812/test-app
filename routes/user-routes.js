@@ -1,6 +1,14 @@
 const router = require("express").Router();
 // Bring in the User Registration function
-const { userLogin, userRegister } = require("../utils/Auth");
+const {
+  userLogin,
+  userRegister,
+  userAuth,
+  checkRole,
+} = require("../utils/Auth");
+
+const User = require("../models/User");
+
 
 // Users Registeration Route
 // Use this route for multiple users e.g slaughterhouseowners, distributer and retailer.
@@ -25,7 +33,7 @@ router.post("/login-user", async (req, res) => {
 
 // Admin Login Route
 router.post("/login-farmowner", async (req, res) => {
-  await userLogin(req.body, "admin", res);
+  await userLogin(req.body, "farmowner", res);
 });
 
 // Super Admin Login Route
@@ -33,11 +41,40 @@ router.post("/login-super-admin", async (req, res) => {
   await userLogin(req.body, "superadmin", res);
 });
 
+// Testing endpoint
 // Profile Route
-// router.get("/profile", userAuth, async (req, res) => {
-//   return res.json(serializeUser(req.user));
-// });
+router.get(
+  "/profile",
+  userAuth,
+  checkRole(["superadmin"]),
+  async (req, res) => {
+    // console.log(req);
+    return res.json("Hello");
+  }
+);
 
+// get all User objects
+// Superadmin protected
+router.get(
+  "/getallusers",
+  userAuth,
+  checkRole(["superadmin"]),
+  async (req, res) => {
+    try {
+      const user = await User.find();
+      return res.status(200).json({
+        success: true,
+        message: [],
+        user,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        success: false,
+        error: err,
+      });
+    }
+  }
+);
 // Users Protected Route
 // router.get(
 //   "/user-protectd",

@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
-const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
+
+const User = require("../models/User");
 
 //Create a new User
 const userRegister = async (userDetails, role, res) => {
@@ -33,7 +35,7 @@ const userRegister = async (userDetails, role, res) => {
     });
 
     await newUser.save();
-    return res.status(200).json({
+    return res.status(201).json({
       message: "User is saved successfully",
       success: true,
     });
@@ -56,7 +58,7 @@ const userLogin = async (userCreds, role, res) => {
       success: false,
     });
   }
-  // If user is found 
+  // If user is found
   // We will check the role
   if (user.role !== role) {
     return res.status(403).json({
@@ -69,19 +71,21 @@ const userLogin = async (userCreds, role, res) => {
   let isMatch = await bcrypt.compare(password, user.password);
   if (isMatch) {
     // create JWT Token for the user
-    let token = jwt.sign({
+    let token = jwt.sign(
+      {
         user_id: user._id,
         role: user.role,
-        username: user.username
-    },'SECRETKEY');
+        username: user.username,
+      },
+      "SECRETKEY"
+    );
     let result = {
       username: user.username,
       role: user.role,
       email: user.email,
-      token: `Bearer ${token}`
-
+      token: `Bearer ${token}`,
     };
-    return res.status(201).json({
+    return res.status(200).json({
       ...result,
       message: "Login Successfully",
       success: true,
@@ -105,7 +109,23 @@ const validateEmail = async (email) => {
   return user ? false : true;
 };
 
+//Passport middleware for proctecting
+const userAuth = passport.authenticate("jwt", { session: false });
+
+// Check role middleware
+const checkRole = (roles) => (req, res, next) => {
+  if (roles.includes(req.user.role)) {
+    return next();
+  }
+  return res.status(401).json({
+    message: "You are not allowed to access this endpoint.",
+    success: false,
+  });
+};
+
 module.exports = {
+  userAuth,
+  checkRole,
   userRegister,
   userLogin,
 };
