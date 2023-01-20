@@ -1,13 +1,16 @@
 const express = require("express");
 const mogoose = require("mongoose");
-const { success, error } = require("consola");
 
+const passport = require("passport");
+const { success, error } = require("consola");
 //connect to mongodb server
 const dbURI =
   "mongodb+srv://fahama:YviAIPJlQUwbmwW1@final-year-project.3wxb73f.mongodb.net/FYP";
 const app = express();
 app.use(express.json()); // this line is for parsing json body
 
+app.use(passport.initialize());
+require("./middleware/passport")(passport);
 // User Router Middleware
 app.use("/api/users", require("./routes/user-routes"));
 
@@ -29,7 +32,7 @@ app.use("/api/retailor", require("./routes/retailor-routes"));
 // Butcher Handler Middleware
 app.use("/api/butcher", require("./routes/butcher-routes"));
 
-app.use("/api/product",  require("./routes/product-routes"));
+app.use("/api/product", require("./routes/product-routes"));
 
 // This will fire whenever an unknown endpoint is hit
 app.all("*", (req, res) => {
