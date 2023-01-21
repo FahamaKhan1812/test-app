@@ -34,7 +34,7 @@ exports.get_distributors = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      success: fasle,
+      success: false,
       message: ["Server Error try again"],
       error: err,
     });
@@ -57,7 +57,7 @@ exports.getdistributorById = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      success: fasle,
+      success: false,
       message: ["Server Error try again"],
       error: err,
     });

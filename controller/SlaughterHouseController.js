@@ -65,3 +65,30 @@ exports.getSlaughterhouseById = async (req, res) => {
     });
   }
 };
+// Get Butchers Details By a SlaughterHouse_uuid
+exports.getButchersBySlaughterHouse_uuid = async (req, res) => {
+  try {
+    const slaughterHouse = await SlaughterHouse.aggregate([
+     
+      {
+        $lookup: {
+          from: "buthcers",
+          localField: "slaughterhouse_uuid",
+          foreignField: "slaughterid",
+          as: "butcherData",
+        },
+      },
+    ]);
+    return res.status(200).json({
+      success: true,
+      message: [],
+      slaughterHouse,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: ["Server Error try again"],
+      error: err,
+    });
+  }
+};
