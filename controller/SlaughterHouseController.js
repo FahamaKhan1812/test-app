@@ -13,8 +13,8 @@ exports.create_slaughterhouse = async (req, res) => {
     await slaughterHouse.save();
     return res.status(200).json({
       success: true,
+      slaughterHouse,
       message: [],
-      distributors,
     });
   } catch (err) {
     return res.status(500).json({
@@ -72,7 +72,7 @@ exports.getButchersBySlaughterHouse_uuid = async (req, res) => {
      
       {
         $lookup: {
-          from: "buthcers",
+          from: "butchers",
           localField: "slaughterhouse_uuid",
           foreignField: "slaughterid",
           as: "butcherData",
