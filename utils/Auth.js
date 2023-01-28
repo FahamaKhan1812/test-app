@@ -76,6 +76,8 @@ const userLogin = async (userCreds, role, res) => {
         user_id: user._id,
         role: user.role,
         username: user.username,
+        farm_Id: user?.farm_Id,
+        slaughter_house_Id: user?.slaughter_house_Id,
       },
       "SECRETKEY"
     );
@@ -83,10 +85,12 @@ const userLogin = async (userCreds, role, res) => {
       username: user.username,
       role: user.role,
       email: user.email,
+      farm_Id: user?.farm_Id,
+      slaughter_house_Id: user?.slaughter_house_Id,
       token: `Bearer ${token}`,
     };
     return res.status(200).json({
-      ...result,
+      result,
       message: "Login Successfully",
       success: true,
     });
@@ -118,7 +122,7 @@ const checkRole = (roles) => (req, res, next) => {
     return next();
   }
   return res.status(401).json({
-    message: "You are not allowed to access this endpoint.",
+    message: "Unauthorized",
     success: false,
   });
 };

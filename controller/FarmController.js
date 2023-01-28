@@ -6,7 +6,7 @@ exports.create_farm = async (req, res) => {
   const farm = new Farm({
     farm_name: req.body?.farm_name,
     farm_address: req.body?.farm_address,
-    role: req.body?.farm_name,
+    farm_capacity: req.body?.farm_capacity
   });
   try {
     await farm.save();
@@ -67,7 +67,7 @@ exports.getFarmById = async (req, res) => {
 exports.getAnimalByFarm_uuid = async (req, res) => {
   try {
     const farm = await Farm.aggregate([
-     
+      {$match:{"farm_uuid":req.params.id}},
       {
         $lookup: {
           from: "animals",

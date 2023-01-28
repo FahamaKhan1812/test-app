@@ -21,9 +21,23 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    farm_Id: {
+      type: String,
+    },
+    slaughter_house_Id: {
+      type: String,
+    },
     role: {
       type: String,
-      enum: ["superadmin", "farmowner"],
+      enum: [
+        "superadmin",
+        "farmowner",
+        "farmuser",
+        "slaughterhouseowner",
+        "slaughterhouseuser",
+        "retailer",
+        "distributor",
+      ],
     },
   },
   { timestamps: true }

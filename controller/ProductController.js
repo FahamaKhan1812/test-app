@@ -1,8 +1,7 @@
-
-const Farm = require('../models/Farm');
-const Animal = require('../models/Animal');
-const SlaughterHouse = require('../models/SlaughterHouse');
-const Butcher = require('../models/Butcher');
+const Farm = require("../models/Farm");
+const Animal = require("../models/Animal");
+const SlaughterHouse = require("../models/SlaughterHouse");
+const Butcher = require("../models/Butcher");
 const Product = require("../models/Product");
 
 // Create a new Product
@@ -100,56 +99,66 @@ exports.getproductById = async (req, res) => {
 
 //Product report
 exports.getproductReportById = async (req, res) => {
-    try {
-      const product = await Product.findById(req.params.id);
-      if(product){
-        let string = product.productid;
-        let parts = string.split(":");
-        let farmID = parts[0].split("-")[0];  
-        let animalId = parts[0].split("-")[1];
-        let slaughterId = parts[1].split("-")[0];
-        let butcherId = parts[1].split("-")[1];
+  try {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      let string = product.productid;
+      let parts = string.split(":");
+      let farmID = parts[0].split("-")[0];
+      let animalId = parts[0].split("-")[1];
+      let slaughterId = parts[1].split("-")[0];
+      let butcherId = parts[1].split("-")[1];
 
-        // Find the farm in the database by its ID
-        const animal = await Animal.findById(animalId);
-        if(!animal){
-          return res.status(404).json({
-            success: false,
-            message: `No Animal is found with id ${animalId}`,
-          });}
-        
-        const farm = await Farm.findById(farmID);
-        if(!farm){
-          return res.status(404).json({
-            success: false,
-            message: `No Farm is found with id ${farm.farmID}`,
-          });}
+      // Find the farm in the database by its ID
+      const animal = await Animal.findById(animalId);
+      if (!animal) {
+        return res.status(404).json({
+          success: false,
+          message: `No Animal is found with id ${animalId}`,
+        });
+      }
 
-        const slaughter = await SlaughterHouse.findById(slaughterId);
-        if(!slaughter){
-          res.status(404).json({
-            success: false,
-            message: `No Slaughter is found with id ${slaughterId}`,
-          });}
+      const farm = await Farm.findById(farmID);
+      if (!farm) {
+        return res.status(404).json({
+          success: false,
+          message: `No Farm is found with id ${farm.farmID}`,
+        });
+      }
 
-        const butcher = await Butcher.findById(butcherId);
-        if(!butcher){
-          res.status(404).json({
-            success: false,
-            message: `No butcher is found with id ${butcherId}`,
-          });
-        }
-        // combine all the responses together
-      const combinedResponse = {product,farm,slaughter,butcher,animal};
-      res.json(combinedResponse);
-        
-          }
-          else{
-            res.status(404).json({
-              success: false,
-              message: `No Product is found with id ${req.params.id}`,
-            });}
-    } catch (err) {
-      res.status(500).json({ error: err });
+      const slaughter = await SlaughterHouse.findById(slaughterId);
+      if (!slaughter) {
+        res.status(404).json({
+          success: false,
+          message: `No Slaughter is found with id ${slaughterId}`,
+        });
+      }
+
+      const butcher = await Butcher.findById(butcherId);
+      if (!butcher) {
+        res.status(404).json({
+          success: false,
+          message: `No butcher is found with id ${butcherId}`,
+        });
+      }
+      // combine all the responses together
+      const combinedResponse = { product, farm, slaughter, butcher, animal };
+      return res.status(200).json({
+        success: true,
+        message: [],
+        combinedResponse,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: `No Product is found with id ${req.params.id}`,
+      });
     }
-  };
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: ["Server Error try again"],
+      error: err,
+    });
+  }
+};

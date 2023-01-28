@@ -7,7 +7,7 @@ exports.create_slaughterhouse = async (req, res) => {
     address: req.body?.address,
     owner_name: req.body?.owner_name,
     capacity: req.body?.capacity,
-    role: req.body?.name,
+    farm_id: req.body?.farm_id,
   });
   try {
     await slaughterHouse.save();
@@ -69,7 +69,7 @@ exports.getSlaughterhouseById = async (req, res) => {
 exports.getButchersBySlaughterHouse_uuid = async (req, res) => {
   try {
     const slaughterHouse = await SlaughterHouse.aggregate([
-     
+      { $match: { slaughterhouse_uuid: req.params.id } },
       {
         $lookup: {
           from: "butchers",

@@ -1,7 +1,7 @@
 const express = require("express");
 const mogoose = require("mongoose");
-
 const passport = require("passport");
+
 const { success, error } = require("consola");
 //connect to mongodb server
 const dbURI =

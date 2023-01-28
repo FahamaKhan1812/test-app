@@ -1,44 +1,32 @@
 const router = require("express").Router();
 // Bring in the User Registration function
 const {
-  userLogin,
-  userRegister,
   userAuth,
+  userLogin,
   checkRole,
+  userRegister,
 } = require("../utils/Auth");
 
 const User = require("../models/User");
-
-
-// Users Registeration Route
-// Use this route for multiple users e.g slaughterhouseowners, distributer and retailer.
-router.post("/register-user", async (req, res) => {
-  await userRegister(req.body, "user", res);
-});
 
 // Super Admin Registration Route
 router.post("/register-super-admin", async (req, res) => {
   await userRegister(req.body, "superadmin", res);
 });
+
+// Super Admin Login Route
+router.post("/login-super-admin", async (req, res) => {
+  await userLogin(req.body, "superadmin", res);
+});
+
 // farmowner Registration Route
 router.post("/register-farmowner", async (req, res) => {
   await userRegister(req.body, "farmowner", res);
 });
 
-// Other types of User Login Route
-// Currently this endpoint is not working properly
-router.post("/login-user", async (req, res) => {
-  await userLogin(req.body, "user", res);
-});
-
-// Admin Login Route
+// Farmowner Login Route
 router.post("/login-farmowner", async (req, res) => {
   await userLogin(req.body, "farmowner", res);
-});
-
-// Super Admin Login Route
-router.post("/login-super-admin", async (req, res) => {
-  await userLogin(req.body, "superadmin", res);
 });
 
 // Testing endpoint
@@ -75,44 +63,31 @@ router.get(
     }
   }
 );
-// Users Protected Route
-// router.get(
-//   "/user-protectd",
-//   userAuth,
-//   checkRole(["user"]),
-//   async (req, res) => {
-//     return res.json("Hello User");
-//   }
-// );
 
-// Admin Protected Route
-// router.get(
-//   "/admin-protectd",
-//   userAuth,
-//   checkRole(["admin"]),
-//   async (req, res) => {
-//     return res.json("Hello Admin");
-//   }
-// );
+// Farm-users Registeration Route
+router.post(
+  "/register-farm-user",
+  userAuth,
+  checkRole(["farmowner"]), //this endpoint requires farmowner role only
+  async (req, res) => {
+    await userRegister(req.body, "farmuser", res);
+  }
+);
 
-// Super Admin Protected Route
-// router.get(
-//   "/super-admin-protectd",
-//   userAuth,
-//   checkRole(["superadmin"]),
-//   async (req, res) => {
-//     return res.json("Hello Super Admin");
-//   }
-// );
+//Login as a new farm user
+router.post("/login-farmuser", async (req, res) => {
+  await userLogin(req.body, "farmuser", res);
+});
 
-// Super Admin Protected Route
-// router.get(
-//   "/super-admin-and-admin-protectd",
-//   userAuth,
-//   checkRole(["superadmin", "admin"]),
-//   async (req, res) => {
-//     return res.json("Super admin and Admin");
-//   }
-// );
+// Slaughter-House-owner Registration Route
+router.post("/register-slaughter-house-owner ", async (req, res) => {
+  await userRegister(req.body, "slaughterhouseowner", res);
+});
+
+// Slaughter-House-owner Login Route
+router.post("/login-slaughter-house-owner", async (req, res) => {
+  await userLogin(req.body, "slaughterhouseowner", res);
+});
+
 
 module.exports = router;

@@ -3,9 +3,10 @@ const Animal = require("../models/Animal");
 // Create a new Animal
 exports.create_animal = async (req, res) => {
   const animal = new Animal({
-    farm_id: req.body?.farm_id,
     breed_name: req.body?.breed_name,
     animal_dob: req.body?.animal_dob,
+    farm_Id: req.body?.farm_Id,
+    user_Id: req.body?.user_Id,
   });
   try {
     await animal.save();
