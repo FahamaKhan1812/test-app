@@ -5,7 +5,7 @@ const abi = require("../../utils/contracts/product.abi.js");
 const contractAddress = "0xa043a232a1692bdccc7d0d132f719cc446838bac";
 
 const getDataFromBlockchain = async (req, res) => {
-  let productId = req.params.id
+  let productId = req.params.id;
 
   const ether = new JsonRpcProvider(
     "https://polygon-mumbai.g.alchemy.com/v2/B3JfkysRdqmgLjwYq95KKwNzaQQU5bez",
@@ -28,10 +28,10 @@ const getDataFromBlockchain = async (req, res) => {
     });
   } catch (err) {
     let errorMessage = err?.reason;
-    errorMessage = errorMessage + "Invalid QR Code";
+    errorMessage = errorMessage + " Invalid QR Code";
     return res.json({
       success: false,
-      message:[errorMessage],
+      message: [errorMessage],
     });
   }
 };
