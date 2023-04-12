@@ -87,7 +87,7 @@ const userLogin = async (userCreds, role, res) => {
       email: user.email,
       farm_Id: user?.farm_Id,
       slaughter_house_Id: user?.slaughter_house_Id,
-      token: `Bearer ${token}`,
+      token,
     };
     return res.status(200).json({
       result,
