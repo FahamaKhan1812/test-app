@@ -9,6 +9,9 @@ const dbURI =
 const app = express();
 app.use(express.json()); // this line is for parsing json body
 
+// for product info from the blockchain:
+app.use("/api/get-product-info-from-blockchain", require("./routes/product-info-from-blockchain-routes"));
+
 app.use(passport.initialize());
 require("./middleware/passport")(passport);
 // User Router Middleware
@@ -66,11 +69,4 @@ startApp = async () => {
   }
 };
 
-// This will fire whenever an unknown endpoint is hit
-app.all("*", (req, res) => {
-  res.status(404);
-  if (req.accepts("json")) {
-    res.send({ error: "404 Not Found" });
-  }
-});
 startApp();
