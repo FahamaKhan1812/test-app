@@ -1,4 +1,3 @@
-// models/farm.js
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 
@@ -15,9 +14,10 @@ const FarmSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  role: {
-    type: String,
-  },
+  farm_capacity: {
+    type: Number
+  }
+ 
   
 }, {timestamps: true});
 
