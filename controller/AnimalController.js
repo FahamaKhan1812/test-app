@@ -42,17 +42,20 @@ exports.get_animals = async (req, res) => {
 
 //Get Animal By Id
 exports.getanimalById = async (req, res) => {
+  const farm_id = req.query;
   try {
-    const animal = await Animal.findById(req.params.id);
-    if (!animal)
-      return res.status(404).json({
-        success: false,
-        message: `No animal is found with id ${req.params.id}`,
+    const animal = await Animal.find(farm_id);
+    if (animal.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No animal data is found",
+        data: [],
       });
+    }
     return res.status(200).json({
       success: true,
       message: [],
-      animal,
+      data: animal,
     });
   } catch (err) {
     return res.status(500).json({
