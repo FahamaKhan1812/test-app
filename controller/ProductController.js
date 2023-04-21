@@ -143,10 +143,11 @@ exports.getproductReportById = async (req, res) => {
       }
       // combine all the responses together
       const combinedResponse = { product, farm, slaughter, butcher, animal };
+      // combinedResponse = sterilizeResponse(combinedResponse)
       return res.status(200).json({
         success: true,
         message: [],
-        combinedResponse,
+        productresult: sterilizeResponse(combinedResponse),
       });
     } else {
       res.status(404).json({
@@ -162,3 +163,30 @@ exports.getproductReportById = async (req, res) => {
     });
   }
 };
+
+// Test serlize
+function sterilizeResponse(originalResponse) {
+  const sterilizedResponse = {
+    farm: {
+      farm_name: originalResponse.farm.farm_name,
+      farm_address: originalResponse.farm.farm_address,
+    },
+    slaughter: {
+      name: originalResponse.slaughter.name,
+      address: originalResponse.slaughter.address,
+      owner_name: originalResponse.slaughter.owner_name,
+      capacity: originalResponse.slaughter.capacity,
+    },
+    butcher: {
+      name: originalResponse.butcher.name,
+      nic: originalResponse.butcher.nic,
+    },
+    animal: {
+      breed_name: originalResponse.animal.breed_name,
+      animal_dob: originalResponse.animal.animal_dob,
+      createdAt: originalResponse.animal.createdAt,
+      updatedAt: originalResponse.animal.updatedAt,
+    },
+  };
+  return sterilizedResponse;
+}
