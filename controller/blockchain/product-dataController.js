@@ -11,15 +11,39 @@ const getDataFromBlockchain = async (req, res) => {
     "https://polygon-mumbai.g.alchemy.com/v2/B3JfkysRdqmgLjwYq95KKwNzaQQU5bez",
   );
   const abiJson = JSON.parse(abi);
-  const myNewCOnract = new ethers.Contract(contractAddress, abiJson, ether);
+  const myNewContract = new ethers.Contract(contractAddress, abiJson, ether);
   try {
-    const [productDetails, snEDate, retailorID, distributorID] =
-      await myNewCOnract["retrieve"](productId);
+    const [productDetails, snEDate,recordCreationTime, retailorID,retailorReceiveTime, distributorID,distributorReceiveTime] =
+      await myNewContract["retrieve"](productId);
+
+    // Splitting the productDetails and SnE Date using ":" as limiter  and assigning it to respective variables.
+
+    const [farmID = "", animalID = "", slaughterHouseID = "", butcherID = ""] = productDetails.split(":");
+    const [slaughterDate = "", expiryDate = ""] = snEDate.split(":");
+    
+    //converting TimeStamps from uint256 to String
+    const RCTimetemp = new Date(recordCreationTime * 1000); // Convert to milliseconds by multiplying with 1000
+    const CreationTimeString=RCTimetemp.toString();
+    
+    const RRTimetemp = new Date(retailorReceiveTime * 1000); // Convert to milliseconds by multiplying with 1000
+    const RetailorTimeString=RRTimetemp.toString();
+
+    const DRTimetemp = new Date(distributorReceiveTime * 1000); // Convert to milliseconds by multiplying with 1000
+    const DistributorTimeString=DRTimetemp.toString();
+
+
     const productInfo = {
-      "Product Details": productDetails !== "" ? productDetails : "Not Found",
-      SnEDate: snEDate !== "" ? snEDate : "Not Found",
-      RetailorID: retailorID !== "" ? retailorID : "Not Found",
+      FarmID: farmID !== "" ? farmID : "Not Found",
+      AnimalID: animalID !== "" ? animalID : "Not Found",
+      SlaughterHouseID: slaughterHouseID !== "" ? slaughterHouseID : "Not Found",
+      ButcherID: butcherID !== "" ? butcherID : "Not Found",
+      CreationTimeString:CreationTimeString !== "" ? CreationTimeString:"Not Found",
+      SlaughterDate: slaughterDate !== "" ? slaughterDate : "Not Found",
+      ExpiryDate: expiryDate !== "" ? expiryDate : "Not Found",
       DistributorID: distributorID !== "" ? distributorID : "Not Found",
+      DistributorTimeString: DistributorTimeString !== "" ? DistributorTimeString:"Not Found",
+      RetailorID: retailorID !== "" ? retailorID : "Not Found",
+      RetailorTimeString: RetailorTimeString !== "" ? RetailorTimeString:"Not Found",
     };
     return res.status(200).json({
       success: true,
