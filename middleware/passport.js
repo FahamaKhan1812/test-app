@@ -3,7 +3,7 @@ const { Strategy, ExtractJwt } = require("passport-jwt");
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: "SECRETKEY",
+  secretOrKey: "SUPER-SECRETKEY",
 };
 
 module.exports = (passport) => {
