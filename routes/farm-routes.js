@@ -26,7 +26,7 @@ router.get(
 router.get(
   "/getallanimalbyfarmid/:id",
   userAuth,
-  checkRole([ "farmowner", "farmuser"]),
+  checkRole(["superadmin", "farmowner", "farmuser"]),
   FarmController.getAnimalByFarm_uuid
 );
 
