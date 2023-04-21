@@ -48,25 +48,17 @@ const userRegister = async (userDetails, role, res) => {
 };
 
 //Login user
-const userLogin = async (userCreds, role, res) => {
+const userLogin = async (userCreds, res) => {
   let { username, password } = userCreds;
   // First Check if the username is in the database
   const user = await User.findOne({ username });
   if (!user) {
     return res.status(404).json({
-      message: "Username is not found. Invalid login credentials.",
+      message: "Username is not found.",
       success: false,
     });
   }
-  // If user is found
-  // We will check the role
-  if (user.role !== role) {
-    return res.status(403).json({
-      //403 = Unauthorized
-      message: "Please make sure you are logging in from the right portal.",
-      success: false,
-    });
-  }
+
   //Now check for the password
   let isMatch = await bcrypt.compare(password, user.password);
   if (isMatch) {
@@ -76,23 +68,20 @@ const userLogin = async (userCreds, role, res) => {
         user_id: user._id,
         role: user.role,
         username: user.username,
+        name: user.name,
         farm_Id: user?.farm_Id,
         slaughter_house_Id: user?.slaughter_house_Id,
       },
-      "SECRETKEY"
+      "SUPER-SECRETKEY",
     );
     let result = {
       username: user.username,
-      role: user.role,
-      email: user.email,
-      farm_Id: user?.farm_Id,
-      slaughter_house_Id: user?.slaughter_house_Id,
       token,
     };
     return res.status(200).json({
-      result,
       message: "Login Successfully",
       success: true,
+      data: result
     });
   } else {
     return res.status(403).json({
