@@ -12,6 +12,6 @@ router.post(
   AnimalController.create_animal
 );
 router.get("/getallanimals", AnimalController.get_animals);
-// router.get("/getanimalbyid/:id", AnimalController.getanimalByUUID);
+router.get("/getanimalbyfarmid/", AnimalController.getanimalById);
 
 module.exports = router;
