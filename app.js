@@ -1,6 +1,7 @@
 const express = require("express");
 const mogoose = require("mongoose");
 const passport = require("passport");
+const cors = require("cors");
 
 const { success, error } = require("consola");
 //connect to mongodb server
@@ -8,6 +9,8 @@ const dbURI =
   "mongodb+srv://fahama:YviAIPJlQUwbmwW1@final-year-project.3wxb73f.mongodb.net/FYP";
 const app = express();
 app.use(express.json()); // this line is for parsing json body
+app.use(cors());
+
 
 // for product info from the blockchain:
 app.use("/api/get-product-info-from-blockchain", require("./routes/product-info-from-blockchain-routes"));
@@ -15,7 +18,7 @@ app.use("/api/get-product-info-from-blockchain", require("./routes/product-info-
 app.use(passport.initialize());
 require("./middleware/passport")(passport);
 // User Router Middleware
-app.use("/api/users", require("./routes/user-routes"));
+app.use("/api/user", require("./routes/user-routes"));
 
 // Farm Handler Middleware
 app.use("/api/farm", require("./routes/farm-routes"));
