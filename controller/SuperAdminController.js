@@ -1,4 +1,4 @@
-const SuperAdmin = require("../models/superAdmin");
+const SuperAdmin = require("../models/SuperAdmin");
 
 exports.create_super_admin = async (req, res) => {
   const superAdmin = new SuperAdmin({

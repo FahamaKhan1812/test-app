@@ -30,7 +30,7 @@ exports.get_farms = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: [],
-      farms,
+      data: farms,
     });
   } catch (err) {
     return res.status(500).json({
@@ -52,7 +52,7 @@ exports.getFarmById = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: [],
-      farm,
+      data: farm,
     });
   } catch (err) {
     return res.status(500).json({
@@ -80,7 +80,7 @@ exports.getAnimalByFarm_uuid = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: [],
-      farm,
+      data: farm,
     });
   } catch (err) {
     return res.status(500).json({
