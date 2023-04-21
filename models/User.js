@@ -27,6 +27,12 @@ const UserSchema = new Schema(
     slaughter_house_Id: {
       type: String,
     },
+    distributor_Id: {
+      type: String,
+    },
+    retailerId: {
+      type: String,
+    },
     role: {
       type: String,
       enum: [
