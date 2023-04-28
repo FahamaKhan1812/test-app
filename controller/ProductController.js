@@ -48,8 +48,11 @@ exports.get_products = async (req, res) => {
   }
 };
 
+
+
+
 // Update Distributor Field:
-exports.updateproductById = async (req, res) => {
+exports.updateproductdistributorById = async (req, res) => {
   try {
     const updatedData = await Product.findByIdAndUpdate(
       req.params.id,
@@ -75,6 +78,68 @@ exports.updateproductById = async (req, res) => {
     });
   }
 };
+
+exports.updateproductretailorById = async (req, res) => {
+  try {
+    const updatedData = await Product.findByIdAndUpdate(
+      req.params.id,
+      { retailor: req.body?.retailor },
+      { new: true }
+    );
+    if (!updatedData) {
+      return res.status(404).json({
+        success: false,
+        message: `No product is found with id ${req.params.id}`,
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: [],
+      updatedData,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: ["Server Error try again"],
+      error: err,
+    });
+  }
+};
+
+exports.productbyretailor= async (req,res) => {
+    try {
+      const products = await Product.find({ "retailor": req.params.retailorID });
+      return res.status(200).json({
+        success: true,
+        message: [],
+        products,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        success: false,
+        message: ["Server Error try again"],
+        error: err,
+      });
+    }
+  };
+
+  exports.productbydistributor= async (req,res) => {
+    try {
+      const products = await Product.find({ "distributor": req.params.distributorID });
+      return res.status(200).json({
+        success: true,
+        message: [],
+        products,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        success: false,
+        message: ["Server Error try again"],
+        error: err,
+      });
+    }
+  };
+  
 
 //Get product By Id
 exports.getproductById = async (req, res) => {
@@ -226,6 +291,7 @@ function filterReport(response) {
 }
 
 
+//Not using this endpoint: 
 
 //Product report
 exports.getproductReportById = async (req, res) => {
