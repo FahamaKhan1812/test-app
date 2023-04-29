@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "707ffd33-af5e-4d71-b891-ad95588594c0",
-		"name": "FYP-Backend",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "18858738"
+		"_postman_id": "cb065d5b-014b-4800-9524-164fcd69d6c7",
+		"name": "FYP-Backend Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -750,21 +749,136 @@
 					"response": []
 				},
 				{
-					"name": "Product Report",
+					"name": "Product Report (Mobile)",
 					"request": {
 						"auth": {
 							"type": "noauth"
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ANIMALID\": \"63c1bef7b87fb624a24b6930\",\r\n  \"FARMID\": \"63d2a2a98a0027d2d7e51de7\",\r\n  \"SLAUGHTERID\": \"63c1d67d027da84b46f15281\",\r\n  \"BUTCHERID\": \"63c1f47c9da550eec8d59d79\",\r\n  \"DISTRIBUTORID\": \"63c1d7a9027da84b46f15286\",\r\n  \"RETAILORID\": \"63c1da2bf6dcbfcf731499af\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{URL}}product/getProductReport/63c2027680763bc653cad988",
+							"raw": "{{URL}}product/ProductReport/",
 							"host": [
 								"{{URL}}product"
 							],
 							"path": [
-								"getProductReport",
-								"63c2027680763bc653cad988"
+								"ProductReport",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products by Distributor Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/product/getproductbydistributorid/63c1d7a9027da84b46f15286",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"product",
+								"getproductbydistributorid",
+								"63c1d7a9027da84b46f15286"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products by Retailor Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/product/getproductbyretailorid/63c1da2bf6dcbfcf731499af",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"product",
+								"getproductbyretailorid",
+								"63c1da2bf6dcbfcf731499af"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Distributor ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"distributor\": \"63c1d7a9027da84b46f15286\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/product/updateproductdistributor/643acaa70120a6220687a456",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"product",
+								"updateproductdistributor",
+								"643acaa70120a6220687a456"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Retailor ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"retailor\": \"63c1da2bf6dcbfcf731499af\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/product/updateproductretailor/643acaa70120a6220687a456",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"product",
+								"updateproductretailor",
+								"643acaa70120a6220687a456"
 							]
 						}
 					},
@@ -895,12 +1009,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}product//ProductReport",
+							"raw": "{{URL}}product/ProductReport",
 							"host": [
 								"{{URL}}product"
 							],
 							"path": [
-								"",
 								"ProductReport"
 							]
 						}
