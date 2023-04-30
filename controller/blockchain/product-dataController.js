@@ -13,8 +13,8 @@ const getDataFromBlockchain = async (req, res) => {
   const abiJson = JSON.parse(abi);
   const myNewContract = new ethers.Contract(contractAddress, abiJson, ether);
   try {
-    const [productDetails, snEDate,recordCreationTime, retailorID,retailorReceiveTime, distributorID,distributorReceiveTime] =
-      await myNewContract["retrieve"](productId);
+    // const [productDetails, snEDate,recordCreationTime, retailorID,retailorReceiveTime, distributorID,distributorReceiveTime] =
+    const [productDetails, snEDate, retailorID, distributorID] = await myNewContract["retrieve"](productId);
 
     // Splitting the productDetails and SnE Date using ":" as limiter  and assigning it to respective variables.
 
@@ -22,14 +22,14 @@ const getDataFromBlockchain = async (req, res) => {
     const [slaughterDate = "", expiryDate = ""] = snEDate.split(":");
     
     //converting TimeStamps from uint256 to String
-    const RCTimetemp = new Date(recordCreationTime * 1000); // Convert to milliseconds by multiplying with 1000
-    const CreationTimeString=RCTimetemp.toString();
+    // const RCTimetemp = new Date(recordCreationTime * 1000); // Convert to milliseconds by multiplying with 1000
+    // const CreationTimeString=RCTimetemp.toString();
     
-    const RRTimetemp = new Date(retailorReceiveTime * 1000); // Convert to milliseconds by multiplying with 1000
-    const RetailorTimeString=RRTimetemp.toString();
+    // const RRTimetemp = new Date(retailorReceiveTime * 1000); // Convert to milliseconds by multiplying with 1000
+    // const RetailorTimeString=RRTimetemp.toString();
 
-    const DRTimetemp = new Date(distributorReceiveTime * 1000); // Convert to milliseconds by multiplying with 1000
-    const DistributorTimeString=DRTimetemp.toString();
+    // const DRTimetemp = new Date(distributorReceiveTime * 1000); // Convert to milliseconds by multiplying with 1000
+    // const DistributorTimeString=DRTimetemp.toString();
 
 
     const productInfo = {
@@ -37,14 +37,16 @@ const getDataFromBlockchain = async (req, res) => {
       AnimalID: animalID !== "" ? animalID : "Not Found",
       SlaughterHouseID: slaughterHouseID !== "" ? slaughterHouseID : "Not Found",
       ButcherID: butcherID !== "" ? butcherID : "Not Found",
-      CreationTimeString:CreationTimeString !== "" ? CreationTimeString:"Not Found",
+      // CreationTimeString:CreationTimeString !== "" ? CreationTimeString:"Not Found",
       SlaughterDate: slaughterDate !== "" ? slaughterDate : "Not Found",
       ExpiryDate: expiryDate !== "" ? expiryDate : "Not Found",
       DistributorID: distributorID !== "" ? distributorID : "Not Found",
-      DistributorTimeString: DistributorTimeString !== "" ? DistributorTimeString:"Not Found",
+      // DistributorTimeString: DistributorTimeString !== "" ? DistributorTimeString:"Not Found",
       RetailorID: retailorID !== "" ? retailorID : "Not Found",
-      RetailorTimeString: RetailorTimeString !== "" ? RetailorTimeString:"Not Found",
+      // RetailorTimeString: RetailorTimeString !== "" ? RetailorTimeString:"Not Found",
     };
+
+    console.log(productInfo);
     return res.status(200).json({
       success: true,
       message: [],

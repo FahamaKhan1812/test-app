@@ -11,8 +11,7 @@ router.get('/getproductbyretailorid/:retailorID', ProductController.productbyret
 router.get('/getproductbydistributorid/:distributorID', ProductController.productbydistributor);
 
 router.put("/updateproductdistributor/:id",ProductController.updateproductdistributorById);
-router.put("/updateproductretailor/:id",ProductController.updateproductretailorById)
-router.get("/getProductReport/:id",ProductController.getproductReportById)
+router.put("/updateproductretailor/:id",ProductController.updateproductretailorById);
 
-router.post("/ProductReport/",ProductController.ProductReport) // For Mobile Application
+router.post("/ProductReport/",ProductController.ProductReport); // For Mobile Application
 module.exports = router;
