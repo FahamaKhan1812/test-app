@@ -5,6 +5,11 @@ exports.create_animal = async (req, res) => {
   const animal = new Animal({
     breed_name: req.body?.breed_name,
     animal_dob: req.body?.animal_dob,
+    animal_weight: req.body?.animal_weight,
+    animal_medication: req.body?.animal_medication,
+    animal_breedingStatus: req.body?.animal_breedingStatus,
+    animal_healthStatus: req.body?.animal_healthStatus,
+    animal_injuryStatus: req.body?.animal_injuryStatus,
     farm_Id: req.body?.farm_Id,
     user_Id: req.body?.user_Id,
   });
@@ -55,6 +60,38 @@ exports.getanimalById = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: [],
+      data: animal,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: ["Server Error try again"],
+      error: err,
+    });
+  }
+};
+
+// Update Animal By Id
+exports.updateAnimalById = async (req, res) => {
+  const animal_id = req.params.id;
+  const updatedAnimalData = req.body;
+  try {
+    const animal = await Animal.findByIdAndUpdate(animal_id, updatedAnimalData);
+    if ( animal.animalSlaughteredStatus === "true" && animal.animalSlaughteredByButcherId ===   animal.animalSlaughteredByButcherId) {
+      return res.status(403).json({
+        message: "Animal has already been slaughtered and cannot be updated",
+      });
+    }
+
+    if (!animal) {
+      return res.status(400).json({
+        success: false,
+        message: `Animal not found with id ${animal_id}`,
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Updated successfully",
       data: animal,
     });
   } catch (err) {

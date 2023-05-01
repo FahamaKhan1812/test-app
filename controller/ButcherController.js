@@ -5,6 +5,9 @@ exports.create_butcher = async (req, res) => {
   const butcher = new Butcher({
     name: req.body?.name,
     nic: req.body?.nic,
+    address: req.body?.address,
+    age: req.body?.age,
+    contactno: req.body?.contactno,
     slaughterid: req.body?.slaughterid,
   });
   try {
@@ -39,19 +42,20 @@ exports.get_butchers = async (req, res) => {
   }
 };
 
-//Get Butcher By Id
+//Get Butcher By Slaughter House Id
 exports.getbutcherById = async (req, res) => {
+  const slaughterid = req.query;
   try {
-    const butcher = await Butcher.findById(req.params.id);
-    if (!butcher)
+    const butcher = await Butcher.find(slaughterid);
+    if (butcher.length === 0)
       return res.status(404).json({
         success: false,
-        message: `No butcher is found with id ${req.params.id}`,
+        message: `No butcher is found with id ${slaughterid.slaughterid}`,
       });
     return res.status(200).json({
       success: true,
       message: [],
-      butcher,
+      data: butcher,
     });
   } catch (err) {
     return res.status(500).json({

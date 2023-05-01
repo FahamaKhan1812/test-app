@@ -8,19 +8,25 @@ router.post(
   "/createnewslaughterhouse",
   userAuth,
   checkRole(["superadmin", "farmowner"]),
-  SlaughterHouseController.create_slaughterhouse
+  SlaughterHouseController.create_slaughterhouse,
 );
 router.get(
   "/getallslaughterhouses",
-  SlaughterHouseController.get_slaughterhouses
+  SlaughterHouseController.get_slaughterhouses,
 );
 router.get(
   "/getslaughterhousebyid:id",
-  SlaughterHouseController.getSlaughterhouseById
+  SlaughterHouseController.getSlaughterhouseById,
 );
 router.get(
   "/getbutcherbyslaughterhouse/:id",
-  SlaughterHouseController.getButchersBySlaughterHouse_uuid
+  SlaughterHouseController.getButchersBySlaughterHouse_uuid,
+);
+router.get(
+  "/getslaughterdetailsbyfarmid",
+  userAuth,
+  checkRole(["farmowner", "slaughterhouseowner"]),
+  SlaughterHouseController.getSlaughterHouseByFarmId,
 );
 
 module.exports = router;

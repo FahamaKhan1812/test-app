@@ -20,6 +20,32 @@ const AnimalSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    animal_weight: {
+      type: String,
+      required: true,
+    },
+    animal_healthStatus: {
+      type: String,
+      required: true,
+    },
+    animal_breedingStatus: {
+      type: String,
+      required: true,
+    },
+    animal_medication: {
+      type: String,
+      required: true,
+    },
+    animal_injuryStatus: {
+      type: String,
+      required: true,
+    },
+    animalSlaughteredStatus: {
+      type: String,
+    },
+    animalSlaughteredByButcherId: {
+      type: String,
+    },
     farm_Id: {
       type: String,
     },
