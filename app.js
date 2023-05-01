@@ -40,6 +40,8 @@ app.use("/api/butcher", require("./routes/butcher-routes"));
 
 app.use("/api/product", require("./routes/product-routes"));
 
+app.use("/api/generate-pdf",require("./routes/pdf-routes"));
+
 // This will fire whenever an unknown endpoint is hit
 app.all("*", (req, res) => {
   res.status(404);
