@@ -24,12 +24,16 @@ const ButcherSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    contactno: {
+      type: Number,
+      required: true,
+    },
     slaughterid: {
       type: String,
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("butcher", ButcherSchema);

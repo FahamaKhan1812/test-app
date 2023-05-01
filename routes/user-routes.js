@@ -47,10 +47,14 @@ router.post(
 );
 
 // Slaughter-House-owner Registration Route
-router.post("/register-slaughter-house-owner ", async (req, res) => {
+router.post("/register-slaughter-house-owner", async (req, res) => {
   await userRegister(req.body, "slaughterhouseowner", res);
 });
 
+// Slaughter-House-user Registration Route
+router.post("/register-slaughter-house-user", async (req, res) => {
+  await userRegister(req.body, "slaughterhouseuser", res);
+});
 // Get User by their Ids
 router.get(
   "/getuserbyid",

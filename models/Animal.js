@@ -40,6 +40,12 @@ const AnimalSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    animalSlaughteredStatus: {
+      type: String,
+    },
+    animalSlaughteredByButcherId: {
+      type: String,
+    },
     farm_Id: {
       type: String,
     },

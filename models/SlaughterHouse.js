@@ -24,7 +24,7 @@ const SlaughterHouseSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    farm_id: {
+    farm_Id: {
       type: String,
       required: true,
     },

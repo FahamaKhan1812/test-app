@@ -1,12 +1,13 @@
 // controllers/farmController.js
 const Farm = require("../models/Farm");
+const Animal = require("../models/Animal");
 
 // Create a new Farm
 exports.create_farm = async (req, res) => {
   const farm = new Farm({
     farm_name: req.body?.farm_name,
     farm_address: req.body?.farm_address,
-    farm_capacity: req.body?.farm_capacity
+    farm_capacity: req.body?.farm_capacity,
   });
   try {
     await farm.save();
@@ -62,25 +63,20 @@ exports.getFarmById = async (req, res) => {
     });
   }
 };
-// Testing purpose
-// Get Animals Details By a Farm_uuid
+
+// Get Animals Details By a Farm_Id
 exports.getAnimalByFarm_uuid = async (req, res) => {
   try {
-    const farm = await Farm.aggregate([
-      {$match:{"farm_uuid":req.params.id}},
-      {
-        $lookup: {
-          from: "animals",
-          localField: "farm_uuid",
-          foreignField: "farm_id",
-          as: "animalData",
-        },
-      },
-    ]);
+    const animals = await Animal.find({ farm_Id: req.params.id });
+    if (animals.length === 0)
+      return res.status(404).json({
+        success: false,
+        message: `No animals is found with id ${req.params.id}`,
+      });
     return res.status(200).json({
       success: true,
       message: [],
-      data: farm,
+      data: animals,
     });
   } catch (err) {
     return res.status(500).json({

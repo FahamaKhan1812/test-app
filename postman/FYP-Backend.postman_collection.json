@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "cb065d5b-014b-4800-9524-164fcd69d6c7",
-		"name": "FYP-Backend Copy",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "707ffd33-af5e-4d71-b891-ad95588594c0",
+		"name": "FYP-Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18858738"
 	},
 	"item": [
 		{
@@ -419,13 +420,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}farm/getallanimalbyfarmid/c70af549-509a-4ed8-ac7f-281868e5cd07",
+							"raw": "{{URL}}farm/getallanimalbyfarmid/63d2a2a98a0027d2d7e51de7",
 							"host": [
 								"{{URL}}farm"
 							],
 							"path": [
 								"getallanimalbyfarmid",
-								"c70af549-509a-4ed8-ac7f-281868e5cd07"
+								"63d2a2a98a0027d2d7e51de7"
 							]
 						}
 					},
@@ -461,7 +462,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjNkMmQzYTU0Y2JlNDIzNjUzNzMwMjgzIiwicm9sZSI6ImZhcm11c2VyIiwidXNlcm5hbWUiOiJBbGl0ZXN0dXNlcjEiLCJmYXJtX0lkIjoiNjNkMmEyYTk4YTAwMjdkMmQ3ZTUxZGU3IiwiaWF0IjoxNjc0NzYyNzY3fQ.HGDpMGowzbzu_hp3-rXvmzv1yX2Ewk8TcJQ524zsTuY",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ0MGQ3NmM0YTczYTk3Nzc5YzNmYWMxIiwicm9sZSI6ImZhcm1vd25lciIsInVzZXJuYW1lIjoiZmFoYW1hX0toYW4iLCJuYW1lIjoiRmFoYW1hIEtoYW4iLCJmYXJtX0lkIjoiNjQ0MGQ3NDY0YTczYTk3Nzc5YzNmYWJiIiwiaWF0IjoxNjgyNDMxOTYyfQ.V5IMu23Z2BXxw8vMt0CtoctE7Xta_ySt-RRPSPC6gaY",
 									"type": "string"
 								}
 							]
@@ -470,7 +471,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"breed_name\": \"Australian\",\r\n    \"animal_dob\": \"12-1-2022\",\r\n    \"farm_Id\": \"63d2a2a98a0027d2d7e51de7\",\r\n    \"user_Id\": \"63d2d3a54cbe423653730283\"\r\n}",
+							"raw": "{\r\n    \"breed_name\": \"Australian\",\r\n    \"animal_dob\": \"12-1-2022\",\r\n    \"animal_weight\": \"60 kg\",\r\n    \"animal_healthStatus\": \"Good\",\r\n    \"animal_breedingStatus\": \"male\",\r\n    \"animal_medication\": \"No medication\",\r\n    \"animal_injuryStatus\": \"Not Injured\",\r\n    \"farm_Id\": \"6440d7464a73a97779c3fabb\",\r\n    \"user_Id\": \"6440d76c4a73a97779c3fac1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -495,7 +496,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}animal/getanimalbyfarmid/?farm_id=63c08dfb813a28244937e6fd",
+							"raw": "{{URL}}animal/getanimalbyfarmid/?farm_Id=6440d7464a73a97779c3fabb",
 							"host": [
 								"{{URL}}animal"
 							],
@@ -505,8 +506,8 @@
 							],
 							"query": [
 								{
-									"key": "farm_id",
-									"value": "63c08dfb813a28244937e6fd"
+									"key": "farm_Id",
+									"value": "6440d7464a73a97779c3fabb"
 								}
 							]
 						}
@@ -749,136 +750,21 @@
 					"response": []
 				},
 				{
-					"name": "Product Report (Mobile)",
+					"name": "Product Report",
 					"request": {
 						"auth": {
 							"type": "noauth"
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"ANIMALID\": \"63c1bef7b87fb624a24b6930\",\r\n  \"FARMID\": \"63d2a2a98a0027d2d7e51de7\",\r\n  \"SLAUGHTERID\": \"63c1d67d027da84b46f15281\",\r\n  \"BUTCHERID\": \"63c1f47c9da550eec8d59d79\",\r\n  \"DISTRIBUTORID\": \"63c1d7a9027da84b46f15286\",\r\n  \"RETAILORID\": \"63c1da2bf6dcbfcf731499af\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{URL}}product/ProductReport/",
+							"raw": "{{URL}}product/getProductReport/63c2027680763bc653cad988",
 							"host": [
 								"{{URL}}product"
 							],
 							"path": [
-								"ProductReport",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Products by Distributor Id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api/product/getproductbydistributorid/63c1d7a9027da84b46f15286",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"product",
-								"getproductbydistributorid",
-								"63c1d7a9027da84b46f15286"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Products by Retailor Id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api/product/getproductbyretailorid/63c1da2bf6dcbfcf731499af",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"product",
-								"getproductbyretailorid",
-								"63c1da2bf6dcbfcf731499af"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Distributor ID",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\"distributor\": \"63c1d7a9027da84b46f15286\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5000/api/product/updateproductdistributor/643acaa70120a6220687a456",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"product",
-								"updateproductdistributor",
-								"643acaa70120a6220687a456"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Retailor ID",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"retailor\": \"63c1da2bf6dcbfcf731499af\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5000/api/product/updateproductretailor/643acaa70120a6220687a456",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"product",
-								"updateproductretailor",
-								"643acaa70120a6220687a456"
+								"getProductReport",
+								"63c2027680763bc653cad988"
 							]
 						}
 					},
@@ -982,13 +868,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}get-product-info-from-blockchain/getproductbyid/2",
+							"raw": "{{URL}}get-product-info-from-blockchain/getproductbyid/1",
 							"host": [
 								"{{URL}}get-product-info-from-blockchain"
 							],
 							"path": [
 								"getproductbyid",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -1009,11 +895,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}product/ProductReport",
+							"raw": "{{URL}}product//ProductReport",
 							"host": [
 								"{{URL}}product"
 							],
 							"path": [
+								"",
 								"ProductReport"
 							]
 						}
