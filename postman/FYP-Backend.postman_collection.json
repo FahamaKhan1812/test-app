@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "bcf84b67-433d-4a19-8634-32887ab7b952",
-		"name": "FYP-Backend",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "18858738"
+		"_postman_id": "cb065d5b-014b-4800-9524-164fcd69d6c7",
+		"name": "FYP-Backend Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -16,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"Vikram_Singh\",\r\n    \"password\": \"12345\"\r\n}",
+							"raw": "{\r\n    \"username\": \"testsuperadmin2\",\r\n    \"password\": \"12345\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -112,7 +111,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {  \r\n    \"username\": \"fahama_Khan\",\r\n    \"password\": \"123345\"\r\n}",
+							"raw": " {  \r\n    \"username\": \"farm1\",\r\n    \"password\": \"1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -209,12 +208,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}user/register-slaughter-house-owner",
+							"raw": "{{URL}}users/register-farmowner",
 							"host": [
-								"{{URL}}user"
+								"{{URL}}users"
 							],
 							"path": [
-								"register-slaughter-house-owner"
+								"register-farmowner"
 							]
 						}
 					},
@@ -249,10 +248,20 @@
 				{
 					"name": "Get Users For Specific Farm or Slaughter House",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{farm owner token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}user/getuserbyid?slaughter_house_Id=63d3040cacba6534e1222af4",
+							"raw": "{{URL}}user/getuserbyid?farm_Id=6440d7464a73a97779c3fabb",
 							"host": [
 								"{{URL}}user"
 							],
@@ -261,8 +270,8 @@
 							],
 							"query": [
 								{
-									"key": "slaughter_house_Id",
-									"value": "63d3040cacba6534e1222af4"
+									"key": "farm_Id",
+									"value": "6440d7464a73a97779c3fabb"
 								}
 							]
 						}
@@ -317,16 +326,6 @@
 						}
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ0MGQ3NmM0YTczYTk3Nzc5YzNmYWMxIiwicm9sZSI6ImZhcm1vd25lciIsInVzZXJuYW1lIjoiZmFoYW1hX0toYW4iLCJuYW1lIjoiRmFoYW1hIEtoYW4iLCJmYXJtX0lkIjoiNjQ0MGQ3NDY0YTczYTk3Nzc5YzNmYWJiIiwiaWF0IjoxNjgyOTU2MTcwfQ.J87L7gUlPH4Sw_2wWPMA4N4Va7FFm0sJs3LRr4CkWUw",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -392,13 +391,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}farm/getfarmbyid/63c08dfb813a28244937e6fd",
+							"raw": "{{URL}}farm/getfarmbyid/63d2a2a98a0027d2d7e51de7",
 							"host": [
 								"{{URL}}farm"
 							],
 							"path": [
 								"getfarmbyid",
-								"63c08dfb813a28244937e6fd"
+								"63d2a2a98a0027d2d7e51de7"
 							]
 						}
 					},
@@ -420,13 +419,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}farm/getallanimalbyfarmid/63d2a2a98a0027d2d7e51de7",
+							"raw": "{{URL}}farm/getallanimalbyfarmid/c70af549-509a-4ed8-ac7f-281868e5cd07",
 							"host": [
 								"{{URL}}farm"
 							],
 							"path": [
 								"getallanimalbyfarmid",
-								"63d2a2a98a0027d2d7e51de7"
+								"c70af549-509a-4ed8-ac7f-281868e5cd07"
 							]
 						}
 					},
@@ -462,7 +461,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ0MGQ3NmM0YTczYTk3Nzc5YzNmYWMxIiwicm9sZSI6ImZhcm1vd25lciIsInVzZXJuYW1lIjoiZmFoYW1hX0toYW4iLCJuYW1lIjoiRmFoYW1hIEtoYW4iLCJmYXJtX0lkIjoiNjQ0MGQ3NDY0YTczYTk3Nzc5YzNmYWJiIiwiaWF0IjoxNjgyNDMxOTYyfQ.V5IMu23Z2BXxw8vMt0CtoctE7Xta_ySt-RRPSPC6gaY",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjNkMmQzYTU0Y2JlNDIzNjUzNzMwMjgzIiwicm9sZSI6ImZhcm11c2VyIiwidXNlcm5hbWUiOiJBbGl0ZXN0dXNlcjEiLCJmYXJtX0lkIjoiNjNkMmEyYTk4YTAwMjdkMmQ3ZTUxZGU3IiwiaWF0IjoxNjc0NzYyNzY3fQ.HGDpMGowzbzu_hp3-rXvmzv1yX2Ewk8TcJQ524zsTuY",
 									"type": "string"
 								}
 							]
@@ -471,7 +470,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"breed_name\": \"Australian\",\r\n    \"animal_dob\": \"12-1-2022\",\r\n    \"animal_weight\": \"60 kg\",\r\n    \"animal_healthStatus\": \"Good\",\r\n    \"animal_breedingStatus\": \"male\",\r\n    \"animal_medication\": \"No medication\",\r\n    \"animal_injuryStatus\": \"Not Injured\",\r\n    \"farm_Id\": \"6440d7464a73a97779c3fabb\",\r\n    \"user_Id\": \"6440d76c4a73a97779c3fac1\"\r\n}",
+							"raw": "{\r\n    \"breed_name\": \"Australian\",\r\n    \"animal_dob\": \"12-1-2022\",\r\n    \"farm_Id\": \"63d2a2a98a0027d2d7e51de7\",\r\n    \"user_Id\": \"63d2d3a54cbe423653730283\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -491,49 +490,12 @@
 					"response": []
 				},
 				{
-					"name": "Create new Animal Detail Copy",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ0ZTkxZDBhNWY4OTE4NGY2M2ZiOGU5Iiwicm9sZSI6InNsYXVnaHRlcmhvdXNlb3duZXIiLCJ1c2VybmFtZSI6InJhc2hpZDEyIiwibmFtZSI6Ik11c2h0YXEgUmFzaGlkIiwic2xhdWdodGVyX2hvdXNlX0lkIjoiNjNkMzA0MGNhY2JhNjUzNGUxMjIyYWY0IiwiaWF0IjoxNjgyODgzMDI2fQ.Y9AJIeURHkO-UMBdXuS7sRyE3BFNjuq36i1uCA7TXs0",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"breed_name\": \"Australian\",\r\n    \"animal_dob\": \"12-1-2022\",\r\n    \"animal_weight\": \"60 kg\",\r\n    \"animal_healthStatus\": \"Good\",\r\n    \"animal_breedingStatus\": \"male\",\r\n    \"animal_medication\": \"No medication\",\r\n    \"animal_injuryStatus\": \"Not Injured\",\r\n    \"farm_Id\": \"6440d7464a73a97779c3fabb\",\r\n    \"user_Id\": \"6440d76c4a73a97779c3fac1\",\r\n    \"animalSlaughteredStatus\": \"true\",\r\n    \"animalSlaughteredByButcherId\": \"63cd051929252524a2b29094\"\r\n\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{URL}}animal/updateanimal/63c1bef7b87fb624a24b6930",
-							"host": [
-								"{{URL}}animal"
-							],
-							"path": [
-								"updateanimal",
-								"63c1bef7b87fb624a24b6930"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get animal By Id",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}animal/getanimalbyfarmid/?farm_Id=63d2a2a98a0027d2d7e51de7",
+							"raw": "{{URL}}animal/getanimalbyfarmid/?farm_id=63c08dfb813a28244937e6fd",
 							"host": [
 								"{{URL}}animal"
 							],
@@ -543,8 +505,8 @@
 							],
 							"query": [
 								{
-									"key": "farm_Id",
-									"value": "63d2a2a98a0027d2d7e51de7"
+									"key": "farm_id",
+									"value": "63c08dfb813a28244937e6fd"
 								}
 							]
 						}
@@ -601,46 +563,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}slaughterhouse/getslaughterhousebyid63d3040cacba6534e1222af4",
+							"raw": "{{URL}}slaughterhouse/getslaughterhousebyid63c1cf628eeb19cb623b3cb4",
 							"host": [
 								"{{URL}}slaughterhouse"
 							],
 							"path": [
-								"getslaughterhousebyid63d3040cacba6534e1222af4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get  slaughter houses by Farm Id",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjNkMmEzZDM4NzljMzJkMmU5M2VmZTA2Iiwicm9sZSI6ImZhcm1vd25lciIsInVzZXJuYW1lIjoiS2FzaGlmX0FzYWQiLCJuYW1lIjoiS2FzaGlmIEFzYWQiLCJmYXJtX0lkIjoiNjNkMmEyYTk4YTAwMjdkMmQ3ZTUxZGU3IiwiaWF0IjoxNjgyODMzMTAyfQ.0L6WcvOokU_IlHvRHJif5sawMqCHfEscOTFr4K5O9KY",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}slaughterhouse/getslaughterdetailsbyfarmid/?farm_Id=63d2a2a98a0027d2d7e51de7",
-							"host": [
-								"{{URL}}slaughterhouse"
-							],
-							"path": [
-								"getslaughterdetailsbyfarmid",
-								""
-							],
-							"query": [
-								{
-									"key": "farm_Id",
-									"value": "63d2a2a98a0027d2d7e51de7"
-								}
+								"getslaughterhousebyid63c1cf628eeb19cb623b3cb4"
 							]
 						}
 					},
@@ -764,31 +692,15 @@
 				{
 					"name": "Get butcher by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ0ZTkxZDBhNWY4OTE4NGY2M2ZiOGU5Iiwicm9sZSI6InNsYXVnaHRlcmhvdXNlb3duZXIiLCJ1c2VybmFtZSI6InJhc2hpZDEyIiwibmFtZSI6Ik11c2h0YXEgUmFzaGlkIiwic2xhdWdodGVyX2hvdXNlX0lkIjoiNjNkMzA0MGNhY2JhNjUzNGUxMjIyYWY0IiwiaWF0IjoxNjgyODgzMDI2fQ.Y9AJIeURHkO-UMBdXuS7sRyE3BFNjuq36i1uCA7TXs0",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}butcher/getbutcherbyid?slaughterid=63d3040cacba6534e1222af4",
+							"raw": "{{URL}}butcher/getbutcherbyid63c1f47c9da550eec8d59d74",
 							"host": [
 								"{{URL}}butcher"
 							],
 							"path": [
-								"getbutcherbyid"
-							],
-							"query": [
-								{
-									"key": "slaughterid",
-									"value": "63d3040cacba6534e1222af4"
-								}
+								"getbutcherbyid63c1f47c9da550eec8d59d74"
 							]
 						}
 					},
@@ -797,21 +709,11 @@
 				{
 					"name": "Create new butcher",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ0ZTkxZDBhNWY4OTE4NGY2M2ZiOGU5Iiwicm9sZSI6InNsYXVnaHRlcmhvdXNlb3duZXIiLCJ1c2VybmFtZSI6InJhc2hpZDEyIiwibmFtZSI6Ik11c2h0YXEgUmFzaGlkIiwic2xhdWdodGVyX2hvdXNlX0lkIjoiNjNkMzA0MGNhY2JhNjUzNGUxMjIyYWY0IiwiaWF0IjoxNjgyODgzMDI2fQ.Y9AJIeURHkO-UMBdXuS7sRyE3BFNjuq36i1uCA7TXs0",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"B\",\r\n    \"nic\": \"42101-1234567-3\",\r\n    \"address\": \"qq qqw q\",\r\n    \"age\": 21,\r\n    \"contactno\": 3131311121,\r\n    \"slaughterid\": \"753f31c6-e08b-4645-9716-7157b1150882\"\r\n}",
+							"raw": "{\r\n    \"name\": \"B\",\r\n    \"nic\": \"42101-1234567-3\",\r\n    \"slaughterid\": \"753f31c6-e08b-4645-9716-7157b1150882\",\r\n    \"address\": \"\",\r\n    \"age\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -819,13 +721,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}butcher/createnewbutcher",
-							"host": [
-								"{{URL}}butcher"
-							],
-							"path": [
-								"createnewbutcher"
-							]
+							"raw": ""
 						}
 					},
 					"response": []
@@ -835,6 +731,23 @@
 		{
 			"name": "Products",
 			"item": [
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}product/getallproducts",
+							"host": [
+								"{{URL}}product"
+							],
+							"path": [
+								"getallproducts"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Product Report (Mobile)",
 					"request": {
@@ -970,44 +883,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Get all products",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}product/getallproducts",
-							"host": [
-								"{{URL}}product"
-							],
-							"path": [
-								"getallproducts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Product Report",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}product/getProductReport/63c2027680763bc653cad988",
-							"host": [
-								"{{URL}}product"
-							],
-							"path": [
-								"getProductReport",
-								"63c2027680763bc653cad988"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -1099,28 +974,7 @@
 			"name": "Blockchain",
 			"item": [
 				{
-					"name": "Get Product Data by Id From Blochain",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}get-product-info-from-blockchain/getproductbyid/1",
-							"host": [
-								"{{URL}}get-product-info-from-blockchain"
-							],
-							"path": [
-								"getproductbyid",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Product Details",
+					"name": "Product Details(productController)",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1134,13 +988,159 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}product//ProductReport",
+							"raw": "{{URL}}product/ProductReport",
 							"host": [
 								"{{URL}}product"
 							],
 							"path": [
-								"",
 								"ProductReport"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Data Using productID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Blockchain/GetProductFromBlockchain/64500cbec5dc2082386dd57c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Blockchain",
+								"GetProductFromBlockchain",
+								"64500cbec5dc2082386dd57c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Distributor on Blockchain",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ProductID\":\"test3\",\r\n\"distributorid\":\"Did\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Blockchain/UpdateDistributor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Blockchain",
+								"UpdateDistributor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product On Blockchain",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ProductID\":\"test2\",\r\n\"ProductDetails\":\"F,A,S,B\",\r\n\"SnEDate\":\"22-3-2023:31-3-2023\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Blockchain/CreateProductOnBlockchain",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Blockchain",
+								"CreateProductOnBlockchain"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Retailor on Blockchain",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ProductID\":\"test3\",\r\n\"retailorid\":\"Rid\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Blockchain/UpdateRetailor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Blockchain",
+								"UpdateRetailor"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pdf Endpoint(Mobile)",
+			"item": [
+				{
+					"name": "Generate PDF",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"farm_name\":\"finspect\",\r\n\"farm_address\":\"f1Addreess\",\r\n\"animal_uuid\" :\"Tag\",\r\n\"animal_dob\":\"22-3-2202\",\r\n\"breed_name\":\"AUSi\",\r\n\"name\":\"ABC\",\r\n\"address\":\"FGD\",\r\n\"owner_name\":\"XYZ\",\r\n\"Butchername\":\"AAA\",\r\n\"nic\":\"4214-21321\",\r\n\"distributor_uuid\":\"123-12321-123387\",\r\n\"Dname\":\"FFFF\",\r\n\"retailor_uuid\":\"8768-00-97\",\r\n\"Rname\":\"TGH\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/generate-pdf/pdf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"generate-pdf",
+								"pdf"
 							]
 						}
 					},
@@ -1154,7 +1154,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "{{farm-owner-token}}",
+				"value": "{{Super Admin token}}",
 				"type": "string"
 			}
 		]
@@ -1189,13 +1189,12 @@
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjNjMmZmM2FlMDExZDZkYzA0MDBhZmIzIiwicm9sZSI6InN1cGVyYWRtaW4iLCJ1c2VybmFtZSI6InRlc3RzdXBlcmFkbWluMiIsImlhdCI6MTY3MzgwMTg4MX0.phA0lSKryPBmj2KTmNsE3BxwVhboDCm2RoO36TToWaw"
 		},
 		{
-			"key": "Slaughter-House-Owner",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjNkMzA1Zjk1YWUwZmNkM2M4OTIwZDY2Iiwicm9sZSI6InNsYXVnaHRlcmhvdXNlb3duZXIiLCJ1c2VybmFtZSI6IlNsYXVnaHRlci1Ib3VzZTEiLCJzbGF1Z2h0ZXJfaG91c2VfSWQiOiIyYTUyMWNhMy0zZWIxLTRhN2ItODYxZC01MDNlZmJhZDM1ZjAiLCJpYXQiOjE2ODE2MDYxODN9.biXFt8SnB-_4zVTqgM7DXiN4i5SweCe7TiQw7-Vfxqw"
+			"key": "farm owner token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjNjNDQ3NTBiYWJhMWEyOTY0ZDkzMjlhIiwicm9sZSI6ImZhcm1vd25lciIsInVzZXJuYW1lIjoiZmFybTEiLCJpYXQiOjE2NzQ3NDY5Mjd9.v0M2gipMm-NlCcZT__hNP8VtSboLdI7c20WSWcqokcM"
 		},
 		{
-			"key": "farm-owner-token",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ0MGQ3NmM0YTczYTk3Nzc5YzNmYWMxIiwicm9sZSI6ImZhcm1vd25lciIsInVzZXJuYW1lIjoiZmFoYW1hX0toYW4iLCJuYW1lIjoiRmFoYW1hIEtoYW4iLCJmYXJtX0lkIjoiNjQ0MGQ3NDY0YTczYTk3Nzc5YzNmYWJiIiwiaWF0IjoxNjgyNzkzOTYzfQ.DXWKkE9t7qQOK0rz3bJh0Se6ldk5VjujJ6yXSYIJy-0",
-			"type": "string"
+			"key": "Slaughter-House-Owner",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjNkMzA1Zjk1YWUwZmNkM2M4OTIwZDY2Iiwicm9sZSI6InNsYXVnaHRlcmhvdXNlb3duZXIiLCJ1c2VybmFtZSI6IlNsYXVnaHRlci1Ib3VzZTEiLCJzbGF1Z2h0ZXJfaG91c2VfSWQiOiIyYTUyMWNhMy0zZWIxLTRhN2ItODYxZC01MDNlZmJhZDM1ZjAiLCJpYXQiOjE2ODE2MDYxODN9.biXFt8SnB-_4zVTqgM7DXiN4i5SweCe7TiQw7-Vfxqw"
 		}
 	]
 }
