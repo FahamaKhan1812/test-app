@@ -13,7 +13,7 @@ app.use(cors());
 
 
 // for product info from the blockchain:
-app.use("/api/get-product-info-from-blockchain", require("./routes/product-info-from-blockchain-routes"));
+app.use("/api/Blockchain", require("./routes/blockchain-routes"));
 
 app.use(passport.initialize());
 require("./middleware/passport")(passport);
