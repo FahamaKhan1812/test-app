@@ -91,16 +91,13 @@ exports.get_products = async (req, res) => {
   }
 };
 
-
-
-
 // Update Distributor Field:
 exports.updateproductdistributorById = async (req, res) => {
   try {
     const updatedData = await Product.findByIdAndUpdate(
       req.params.id,
       { distributor: req.body?.distributor },
-      { new: true }
+      { new: true },
     );
     if (!updatedData) {
       return res.status(404).json({
@@ -127,7 +124,7 @@ exports.updateproductretailorById = async (req, res) => {
     const updatedData = await Product.findByIdAndUpdate(
       req.params.id,
       { retailor: req.body?.retailor },
-      { new: true }
+      { new: true },
     );
     if (!updatedData) {
       return res.status(404).json({
@@ -149,40 +146,41 @@ exports.updateproductretailorById = async (req, res) => {
   }
 };
 
-exports.productbyretailor= async (req,res) => {
-    try {
-      const products = await Product.find({ "retailor": req.params.retailorID });
-      return res.status(200).json({
-        success: true,
-        message: [],
-        products,
-      });
-    } catch (err) {
-      return res.status(500).json({
-        success: false,
-        message: ["Server Error try again"],
-        error: err,
-      });
-    }
-  };
+exports.productbyretailor = async (req, res) => {
+  try {
+    const products = await Product.find({ retailor: req.params.retailorID });
+    return res.status(200).json({
+      success: true,
+      message: [],
+      products,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: ["Server Error try again"],
+      error: err,
+    });
+  }
+};
 
-  exports.productbydistributor= async (req,res) => {
-    try {
-      const products = await Product.find({ "distributor": req.params.distributorID });
-      return res.status(200).json({
-        success: true,
-        message: [],
-        products,
-      });
-    } catch (err) {
-      return res.status(500).json({
-        success: false,
-        message: ["Server Error try again"],
-        error: err,
-      });
-    }
-  };
-  
+exports.productbydistributor = async (req, res) => {
+  try {
+    const products = await Product.find({
+      distributor: req.params.distributorID,
+    });
+    return res.status(200).json({
+      success: true,
+      message: [],
+      products,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: ["Server Error try again"],
+      error: err,
+    });
+  }
+};
 
 //Get product By Id
 exports.getproductById = async (req, res) => {
@@ -220,9 +218,9 @@ exports.ProductReport = async (req, res) => {
     if (!animal) {
       // AnimalStatus = false;
       animal = {
-        animal_uuid: 'Not Found',
-        animal_dob: 'Not Found',
-        breed_name: 'Not Found',
+        animal_uuid: "Not Found",
+        animal_dob: "Not Found",
+        breed_name: "Not Found",
       };
     }
 
@@ -248,12 +246,11 @@ exports.ProductReport = async (req, res) => {
     if (!slaughter) {
       SlaughterStatus = false;
       slaughter = {
-        address: 'Not Found',
-        name: 'Not Found',
-        owner_name: 'Not Found',
+        address: "Not Found",
+        name: "Not Found",
+        owner_name: "Not Found",
       };
     }
-
 
     let butcher = "";
     // let ButcherStatus = true;
@@ -268,37 +265,49 @@ exports.ProductReport = async (req, res) => {
       };
     }
 
-
-    let distributor="";
-    let DistributorStatus=true;
-    try{
+    let distributor = "";
+    let DistributorStatus = true;
+    try {
       distributor = await Distributor.findById(req.body?.DISTRIBUTORID);
-    }catch{}
-    if (!distributor){
-      DistributorStatus=false;
+    } catch {}
+    if (!distributor) {
+      DistributorStatus = false;
       distributor = {
-      distributor_uuid: 'Not Found',
-      name: 'Not Found',
-    };}
-
-
-    let retailor=null; 
-    let RetailorStatus=true;
-    try{
-      retailor = await Retailor.findById(req.body?.RETAILORID);
-    }catch{}
-
-    if (!retailor) {
-      RetailorStatus=false;
-      retailor={
-      "retailor_uuid": "Not Found",
-      "name": "Not Found",};      
+        distributor_uuid: "Not Found",
+        name: "Not Found",
+      };
     }
 
-    const ProductReportResult = { farm, slaughter, butcher, animal,retailor,distributor };
-    const Status ={"FarmStatus":FarmStatus,"SlaughterStatus":SlaughterStatus,"DistributorStatus":DistributorStatus,"RetailorStatus":RetailorStatus};
-    
-    const FilteredReport= filterReport(ProductReportResult);
+    let retailor = null;
+    let RetailorStatus = true;
+    try {
+      retailor = await Retailor.findById(req.body?.RETAILORID);
+    } catch {}
+
+    if (!retailor) {
+      RetailorStatus = false;
+      retailor = {
+        retailor_uuid: "Not Found",
+        name: "Not Found",
+      };
+    }
+
+    const ProductReportResult = {
+      farm,
+      slaughter,
+      butcher,
+      animal,
+      retailor,
+      distributor,
+    };
+    const Status = {
+      FarmStatus: FarmStatus,
+      SlaughterStatus: SlaughterStatus,
+      DistributorStatus: DistributorStatus,
+      RetailorStatus: RetailorStatus,
+    };
+
+    const FilteredReport = filterReport(ProductReportResult);
     return res.status(200).json({
       success: true,
       message: Status,
@@ -320,7 +329,7 @@ function filterReport(response) {
     "Farm Address": response.farm.farm_address,
     "Animal TAG": response.animal.animal_uuid,
     "Animal DOB": response.animal.animal_dob,
-    "Breed": response.animal.breed_name,
+    Breed: response.animal.breed_name,
     "Slaughter Name": response.slaughter.name,
     "Slaughter Address": response.slaughter.address,
     "Owner Name": response.slaughter.owner_name,
@@ -329,8 +338,7 @@ function filterReport(response) {
     "Distributor ID": response.distributor.distributor_uuid,
     "Distributor Name": response.distributor.name,
     "Retailor ID": response.retailor.retailor_uuid,
-    "Retailor Name": response.retailor.name
+    "Retailor Name": response.retailor.name,
   };
   return filteredResponse;
 }
-
