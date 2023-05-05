@@ -8,14 +8,57 @@ const Retailor = require("../models/Retailor");
 
 // Create a new Product
 exports.create_Product = async (req, res) => {
-  const product = new Product({
-    animal_id: req.body?.animal_id,
-    butcher_id: req.body?.butcher_id,
-    expirydate: req.body?.expirydate,
-    slaughterdate: req.body?.slaughterdate,
-    productid: req.body?.productid,
-  });
+  const productid = req.body?.productid;
+  const existingProduct = await Product.findOne({ productid });
+
+  if (existingProduct) {
+    return res.status(400).json({
+      success: false,
+      message: "Product with this ID already exists",
+    });
+  }
+
+  const slaughterdate = new Date(req.body?.slaughterdate.replace(/-/g, "/"));
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate()).padStart(2, "0");
+
+  const formattedDate = `${year}-${month}-${day}`;
+
+  if (slaughterdate.toDateString() !== currentDate.toDateString()) {
+    return res.status(400).json({
+      success: false,
+      message: "Slaughter date must be the current date",
+    });
+  }
+
+  const expirydate = new Date(req.body?.expirydate.replace(/-/g, "/"));
+
+  if (expirydate < currentDate) {
+    return res.status(400).json({
+      success: false,
+      message: "Expiry date cannot be a past date",
+    });
+  }
   try {
+    const animal = await Animal.findOne({ _id: req.body?.animal_id });
+
+    if (!animal || animal.animalSlaughteredStatus !== "true") {
+      return res.status(400).json({
+        success: false,
+        message: "Animal slaughter status is false",
+      });
+    }
+
+    const product = new Product({
+      animal_id: req.body?.animal_id,
+      butcher_id: req.body?.butcher_id,
+      expirydate: formattedDate,
+      slaughterdate: slaughterdate.toISOString().slice(0, 10),
+      productid,
+    });
+
     await product.save();
     return res.status(200).json({
       success: true,
@@ -42,7 +85,7 @@ exports.get_products = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: ["Server Error try again"],
+      message: "Server Error try again",
       error: err,
     });
   }
@@ -70,7 +113,7 @@ exports.updateproductdistributorById = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: ["Server Error try again"],
+      message: "Server Error try again",
       error: err,
     });
   }
@@ -97,7 +140,7 @@ exports.updateproductretailorById = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: ["Server Error try again"],
+      message: "Server Error try again",
       error: err,
     });
   }
@@ -114,7 +157,7 @@ exports.productbyretailor = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: ["Server Error try again"],
+      message: "Server Error try again",
       error: err,
     });
   }
@@ -133,7 +176,7 @@ exports.productbydistributor = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: ["Server Error try again"],
+      message: "Server Error try again",
       error: err,
     });
   }
@@ -156,7 +199,7 @@ exports.getproductById = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: ["Server Error try again"],
+      message: "Server Error try again",
       error: err,
     });
   }
@@ -278,7 +321,7 @@ exports.ProductReport = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: ["Server Error try again"],
+      message: "Server Error try again",
       error: err,
     });
   }
