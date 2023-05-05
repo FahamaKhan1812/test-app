@@ -1,4 +1,5 @@
 const SlaughterHouse = require("../models/SlaughterHouse");
+const Farm = require("../models/Farm");
 
 // Create a new SlaughterHouse
 exports.create_slaughterhouse = async (req, res) => {
@@ -55,7 +56,7 @@ exports.getSlaughterhouseById = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: [],
-      slaughterHouse,
+      data: slaughterHouse,
     });
   } catch (err) {
     return res.status(500).json({
@@ -83,6 +84,29 @@ exports.getButchersBySlaughterHouse_uuid = async (req, res) => {
       success: true,
       message: [],
       slaughterHouse,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: ["Server Error try again"],
+      error: err,
+    });
+  }
+};
+
+exports.getSlaughterHouseByFarmId = async (req, res) => {
+  const farm_Id = req.query;
+  try {
+    const slaughterHouse = await SlaughterHouse.find(farm_Id);
+    if (slaughterHouse.length === 0)
+      return res.status(404).json({
+        success: false,
+        message: `No slaughter house is found with id ${farm_Id.farm_Id}`,
+      });
+    return res.status(200).json({
+      success: true,
+      message: [],
+      data: slaughterHouse,
     });
   } catch (err) {
     return res.status(500).json({

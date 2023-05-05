@@ -13,7 +13,7 @@ app.use(cors());
 
 
 // for product info from the blockchain:
-app.use("/api/get-product-info-from-blockchain", require("./routes/product-info-from-blockchain-routes"));
+app.use("/api/Blockchain", require("./routes/blockchain-routes"));
 
 app.use(passport.initialize());
 require("./middleware/passport")(passport);
@@ -39,6 +39,8 @@ app.use("/api/retailor", require("./routes/retailor-routes"));
 app.use("/api/butcher", require("./routes/butcher-routes"));
 
 app.use("/api/product", require("./routes/product-routes"));
+
+app.use("/api/generate-pdf",require("./routes/pdf-routes"));
 
 // This will fire whenever an unknown endpoint is hit
 app.all("*", (req, res) => {

@@ -9,9 +9,17 @@ router.post(
   "/addnewanimal",
   userAuth,
   checkRole(["farmowner", "farmuser"]),
-  AnimalController.create_animal
+  AnimalController.create_animal,
 );
 router.get("/getallanimals", AnimalController.get_animals);
 router.get("/getanimalbyfarmid/", AnimalController.getanimalById);
+
+// update animal by Id
+router.put(
+  "/updateanimal/:id",
+  userAuth,
+  checkRole(["slaughterhouseowner", "slaughterhouseuser"]),
+  AnimalController.updateAnimalById,
+);
 
 module.exports = router;
