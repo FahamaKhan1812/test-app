@@ -207,7 +207,6 @@ exports.getproductById = async (req, res) => {
 
 //Mobile API:
 exports.ProductReport = async (req, res) => {
-  console.log(req.body);
   try {
     let animal = "";
     // let AnimalStatus = true;
