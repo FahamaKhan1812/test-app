@@ -1058,7 +1058,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"ProductID\":\"test2\",\r\n\"ProductDetails\":\"F,A,S,B\",\r\n\"SnEDate\":\"22-3-2023:31-3-2023\"}",
+							"raw": "{\"ProductID\":\"test5\",\r\n\"ProductDetails\":\"F,A,S,B\",\r\n\"SnEDate\":\"22-3-2023:31-3-2023\"}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1066,16 +1066,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/Blockchain/CreateProductOnBlockchain",
-							"protocol": "http",
+							"raw": "{{URL}}product/ProductReport",
 							"host": [
-								"localhost"
+								"{{URL}}product"
 							],
-							"port": "5000",
 							"path": [
-								"api",
-								"Blockchain",
-								"CreateProductOnBlockchain"
+								"ProductReport"
 							]
 						}
 					},
@@ -1123,7 +1119,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"farm_name\":\"finspect\",\r\n\"farm_address\":\"f1Addreess\",\r\n\"animal_uuid\" :\"Tag\",\r\n\"animal_dob\":\"22-3-2202\",\r\n\"breed_name\":\"AUSi\",\r\n\"name\":\"ABC\",\r\n\"address\":\"FGD\",\r\n\"owner_name\":\"XYZ\",\r\n\"Butchername\":\"AAA\",\r\n\"nic\":\"4214-21321\",\r\n\"distributor_uuid\":\"123-12321-123387\",\r\n\"Dname\":\"FFFF\",\r\n\"retailor_uuid\":\"8768-00-97\",\r\n\"Rname\":\"TGH\"\r\n  }",
+							"raw": "{\r\n  \"ProductID\": \"P001\",\r\n  \"ProductCreationTime\": \"2023-05-03T10:15:30Z\",\r\n  \"SlaughterDate\": \"2023-05-01\",\r\n  \"ExpiryDate\": \"2023-06-01\",\r\n  \"FarmName\": \"Farm A\",\r\n  \"FarmAddress\": \"123 Farm Street, Farmville\",\r\n  \"CattleTAG\": \"C001\",\r\n  \"CattleDOB\": \"2022-01-01\",\r\n  \"breed_name\": \"Angus\",\r\n  \"ArrivalTime\": \"2023-04-30T08:00:00Z\",\r\n  \"CattleWeight\": 400,\r\n  \"Gender\": \"Male\",\r\n  \"Medication\": \"None\",\r\n  \"InjuryStatus\": \"None\",\r\n  \"HealthStatus\": \"Healthy\",\r\n  \"SlaughterName\": \"Slaughterhouse X\",\r\n  \"SlaughterAddress\": \"456 Slaughter Street, Slaughterville\",\r\n  \"OwnerName\": \"John Doe\",\r\n  \"ButcherName\": \"Butcher Y\",\r\n  \"ButcherNIC\": \"BY001\",\r\n  \"DistributorReg\": \"D001\",\r\n  \"DistributorName\": \"Distributor Z\",\r\n  \"DistributorTime\": \"2023-05-02T14:30:00Z\",\r\n  \"RetailorReg\": \"R001\",\r\n  \"RetailorName\": \"Retailor W\",\r\n  \"RetailorTime\": \"2023-05-03T08:00:00Z\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
