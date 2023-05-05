@@ -8,24 +8,46 @@ pdfMake.vfs = vfsFonts.pdfMake.vfs;
 
 
 exports.generatePdf =async (req, res) => {
+    console.log("PDF");
     try{
-  
-    const fname = "Example PDF";
-  
-    const FarmName = req.body?.farm_name;
-    const FarmAddress = req.body?.farm_address;
-    const CattleTAG = req.body?.animal_uuid;
-    const CattleDOB = req.body?.animal_dob;
-    const Breed = req.body?.breed_name;
-    const SlaughterName = req.body?.name;
-    const SlaughterAddress = req.body?.address;
-    const OwnerName = req.body?.owner_name;
-    const ButcherName = req.body?.Butchername;
-    const ButcherID = req.body?.nic;
-    const DistributorID = req.body?.distributor_uuid;
-    const DistributorName = req.body?.Dname;
-    const RetailorID = req.body?.retailor_uuid;
-    const RetailorName = req.body?.Rname;
+    const ProductCreationTime = req.body?.ProductCreationTime; 
+    const ProductID=req.body?.ProductID;
+
+    const SlaughterDate= req.body?.SlaughterDate;
+    const ExpiryDate =req.body?.ExpiryDate;
+
+    const FarmName = req.body?.FarmName; 
+    const FarmAddress = req.body?.FarmAddress;
+    
+    const CattleTAG = req.body?.CattleTAG;
+    const CattleDOB = req.body?.CattleDOB;
+
+    const Breed = req.body?.breed_name; 
+    const ArrivalTime = req.body?.ArrivalTime;
+
+    const CattleWeight = req.body?.CattleWeight;
+    const CattleGender=req.body?.Gender;
+
+    const Medication = req.body?.Medication;
+    const InjuryStatus =req.body?.InjuryStatus;
+
+    const HealthStatus = req.body?.HealthStatus;
+    const SlaughterName = req.body?.SlaughterName;
+
+    const SlaughterAddress = req.body?.SlaughterAddress;
+    const OwnerName = req.body?.OwnerName;
+
+    const ButcherName = req.body?.ButcherName;
+    const ButcherNIC = req.body?.ButcherNIC;
+    
+    const DistributorReg = req.body?.DistributorReg;
+    const DistributorName = req.body?.DistributorName;
+
+    const DistributorTime =req.body?.DistributorTime; 
+    const RetailorReg = req.body?.RetailorReg;
+
+    const RetailorName = req.body?.RetailorName;
+    const RetailorTime =req.body?.RetailorTime;
 
 
 // const imageData = base64Img.base64Sync('Logo.png');
@@ -44,33 +66,47 @@ exports.generatePdf =async (req, res) => {
             {
                 style: 'tableExample',
                 table: {
-                    widths: ['*', '*'],
-                    body: [
-                        
-                        ['Product ID:', { text: `${ fname }`, noWrap: true }],
-                        ['Slaughter Date:', { text: `${ fname }`, noWrap: true }],
-                        ['Expiry Date:', { text: `${ fname }`, noWrap: true }],
-                        ['Product ID generated On:', { text: `${ fname }`, noWrap: true }],
+                    widths: ['40%', '60%'],
+                    body: [                        
+                        ['Product ID:', { text: `${ ProductID }`, noWrap: false }],
+                        ['Slaughter Date:', { text: `${ SlaughterDate }`, noWrap: false }],
 
-                        ['Farm Name:', { text: `${ FarmName }`, noWrap: true }],
-                        ['Farm Address:', { text: `${ FarmAddress }`, noWrap: true }],
-                        ['Cattle Tag:', { text: `${ CattleTAG }`, noWrap: true }],
-                        ['Cattle Date of birth:', { text: `${ CattleDOB }`, noWrap: true }],
-                        ['Cattle Breed:', { text: `${ Breed }`, noWrap: true }],
-                        
-                        ['Slaughter House Name:', { text: `${ SlaughterName }`, noWrap: true }],
-                        ['Slaughter House Address:', { text: `${ SlaughterAddress }`, noWrap: true }],
-                        ['Owner:', { text: `${ OwnerName }`, noWrap: true }],
-                        ['Butcher ID:', { text: `${ ButcherID }`, noWrap: true }],
-                        ['Butcher Name:', { text: `${ ButcherName }`, noWrap: true }],
-                        
-                        ['Distributor ID:', { text: `${ DistributorID }`, noWrap: false }],
-                        ['Distributor Name:', { text: `${ DistributorName }`, noWrap: true }],
-                        ['Distributor Receiving time:', { text: `${ fname }`, noWrap: true }],
-                        
-                        ['Retailor ID:', { text: `${ RetailorID }`, noWrap: true }],
-                        ['Retailor Name:', { text: `${ RetailorName }`, noWrap: true }],
-                        ['Retailor Receiving time:', { text: `${ fname }`, noWrap: true }],
+                        ['Expiry Date:', { text: `${ ExpiryDate }`, noWrap: false }],
+                        ['Product ID generated On:', { text: `${ ProductCreationTime }`, noWrap: false }],
+
+                        ['Farm Name:', { text: `${ FarmName }`, noWrap: false }],
+                        ['Farm Address:', { text: `${ FarmAddress }`, noWrap: false }],
+
+                        ['Cattle Tag:', { text: `${ CattleTAG }`, noWrap: false }],
+                        ['Cattle Date of birth:', { text: `${ CattleDOB }`, noWrap: false }],
+
+                        ['Cattle Arrived On:', { text: `${ ArrivalTime }`, noWrap: false }],
+                        ['Cattle Weight:', { text: `${ CattleWeight }`, noWrap: false }],
+
+                        ['Cattle Gender:', { text: `${ CattleGender }`, noWrap: false }],
+                        ['Cattle Medication:', { text: `${ Medication }`, noWrap: false }],
+
+                        ['Cattle Injury:', { text: `${ InjuryStatus }`, noWrap: false }],
+                        ['Cattle Health:', { text: `${ HealthStatus }`, noWrap: false }],
+
+                        ['Cattle Breed:', { text: `${ Breed }`, noWrap: false }],
+                        ['Slaughter House Name:', { text: `${ SlaughterName }`, noWrap: false }],
+
+                        ['Slaughter House Address:', { text: `${ SlaughterAddress }`, noWrap: false }],
+                        ['Owner:', { text: `${ OwnerName }`, noWrap: false }],
+
+                        ['Butcher ID:', { text: `${ ButcherNIC }`, noWrap: false }],
+                        ['Butcher Name:', { text: `${ ButcherName }`, noWrap: false }],
+
+                        ['Distributor ID:', { text: `${ DistributorReg }`, noWrap: false }],
+                        ['Distributor Name:', { text: `${ DistributorName }`, noWrap: false }],
+
+                        ['Distributor Receiving time:', { text: `${ DistributorTime }`, noWrap: false }],
+                        ['Retailor ID:', { text: `${ RetailorReg }`, noWrap: false }],
+
+                        ['Retailor Name:', { text: `${ RetailorName }`, noWrap: false }],
+                        ['Retailor Receiving time:', { text: `${ RetailorTime }`, noWrap: false }]
+
                         
                     ]
                 }
@@ -106,10 +142,11 @@ exports.generatePdf =async (req, res) => {
     pdfDoc.getBase64((data) => {
         res.writeHead(200, {
             'Content-Type': 'application/pdf',
-            'Content-Disposition': `attachment;filename="${fname}.pdf"`
+            'Content-Disposition': `attachment;filename="${ProductID}.pdf"`
         });
 
         const download = Buffer.from(data.toString('utf-8'), 'base64');
+        console.log("End of PDF");
         res.end(download);
         
         });}catch(err){

@@ -177,9 +177,15 @@ exports.ProductReport = async (req, res) => {
     if (!animal) {
       // AnimalStatus = false;
       animal = {
-        animal_uuid: 'Not Found',
-        animal_dob: 'Not Found',
-        breed_name: 'Not Found',
+        animal_uuid: "Not found",
+        breed_name: "Not found",
+        animal_dob: "Not found",
+        createdAt: "Not found",
+        animal_breedingStatus: "Not found",
+        animal_healthStatus: "Not found",
+        animal_injuryStatus: "Not found",
+        animal_medication: "Not found",
+        animal_weight: "Not found",
       };
     }
 
@@ -225,7 +231,6 @@ exports.ProductReport = async (req, res) => {
       };
     }
 
-
     let distributor="";
     let DistributorStatus=true;
     try{
@@ -259,7 +264,6 @@ exports.ProductReport = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: Status,
-      // ProductReportResult,
       FilteredReport,
     });
   } catch (err) {
@@ -273,20 +277,26 @@ exports.ProductReport = async (req, res) => {
 
 function filterReport(response) {
   const filteredResponse = {
-    "Farm Name": response.farm.farm_name,
-    "Farm Address": response.farm.farm_address,
-    "Animal TAG": response.animal.animal_uuid,
-    "Animal DOB": response.animal.animal_dob,
-    "Breed": response.animal.breed_name,
-    "Slaughter Name": response.slaughter.name,
-    "Slaughter Address": response.slaughter.address,
-    "Owner Name": response.slaughter.owner_name,
-    "Butcher Name": response.butcher.name,
-    "Butcher ID": response.butcher.nic,
-    "Distributor ID": response.distributor.distributor_uuid,
-    "Distributor Name": response.distributor.name,
-    "Retailor ID": response.retailor.retailor_uuid,
-    "Retailor Name": response.retailor.name
+        "FarmName": response.farm.farm_name,
+        "FarmAddress": response.farm.farm_address,
+        "AnimalTAG": response.animal.animal_uuid,
+        "AnimalDOB": response.animal.animal_dob,
+        "ArrivalTime":response.animal.createdAt,
+        "Breed": response.animal.breed_name,
+        "CattleWeight":response.animal.animal_weight,
+        "CattleGender":response.animal.animal_breedingStatus,
+        "Medication": response.animal.animal_medication,
+        "InjuryStatus": response.animal.animal_injuryStatus,
+        "HealthStatus":response.animal.animal_healthStatus,
+        "SlaughterName": response.slaughter.name,
+        "SlaughterAddress": response.slaughter.address,
+        "OwnerName": response.slaughter.owner_name,
+        "ButcherName": response.butcher.name,
+        "ButcherNIC": response.butcher.nic,    
+        "DistributorReg": response.distributor.distributor_uuid,
+        "DistributorName": response.distributor.name,
+        "RetailorReg": response.retailor.retailor_uuid,
+        "RetailorName": response.retailor.name
   };
   return filteredResponse;
 }
