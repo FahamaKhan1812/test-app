@@ -101,7 +101,7 @@ exports.retrieveDataBlockchain = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "",
+      message: [],
       productInfo,
     });
   } catch (err) {
@@ -109,7 +109,8 @@ exports.retrieveDataBlockchain = async (req, res) => {
     errorMessage = errorMessage + " Invalid QR Code";
     return res.json({
       success: false,
-      message: [errorMessage],
+      message: errorMessage,
+      error: err
     });
   }
 };
@@ -138,14 +139,15 @@ exports.createProduct = async (req, res) => {
     const Output = { ID, Details, Dates };
     return res.status(200).json({
       success: true,
-      message: "",
+      message: [],
       data: Output,
     });
   } catch (err) {
     let errorMessage = err?.reason;
     return res.status(400).json({
       success: false,
-      message: [err, errorMessage],
+      message: errorMessage,
+      error: err,
     });
   }
 };
@@ -183,7 +185,8 @@ exports.updatedistributorinBlockchain = async (req, res) => {
     let errorMessage = err?.reason;
     return res.status(400).json({
       success: false,
-      message: [err, errorMessage],
+      message: errorMessage,
+      error: err,
     });
   }
 };
@@ -217,7 +220,8 @@ exports.updateretailorinBlockchain = async (req, res) => {
     let errorMessage = err?.reason;
     return res.status(400).json({
       success: false,
-      message: [err, errorMessage],
+      message: errorMessage,
+      error: err,
     });
   }
 };
