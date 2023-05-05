@@ -8,57 +8,14 @@ const Retailor = require("../models/Retailor");
 
 // Create a new Product
 exports.create_Product = async (req, res) => {
-  const productid = req.body?.productid;
-  const existingProduct = await Product.findOne({ productid });
-
-  if (existingProduct) {
-    return res.status(400).json({
-      success: false,
-      message: "Product with this ID already exists",
-    });
-  }
-
-  const slaughterdate = new Date(req.body?.slaughterdate.replace(/-/g, "/"));
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-  const day = String(currentDate.getDate()).padStart(2, "0");
-
-  const formattedDate = `${year}-${month}-${day}`;
-
-  if (slaughterdate.toDateString() !== currentDate.toDateString()) {
-    return res.status(400).json({
-      success: false,
-      message: "Slaughter date must be the current date",
-    });
-  }
-
-  const expirydate = new Date(req.body?.expirydate.replace(/-/g, "/"));
-
-  if (expirydate < currentDate) {
-    return res.status(400).json({
-      success: false,
-      message: "Expiry date cannot be a past date",
-    });
-  }
+  const product = new Product({
+    animal_id: req.body?.animal_id,
+    butcher_id: req.body?.butcher_id,
+    expirydate: req.body?.expirydate,
+    slaughterdate: req.body?.slaughterdate,
+    productid: req.body?.productid,
+  });
   try {
-    const animal = await Animal.findOne({ _id: req.body?.animal_id });
-
-    if (!animal || animal.animalSlaughteredStatus !== "true") {
-      return res.status(400).json({
-        success: false,
-        message: "Animal slaughter status is false",
-      });
-    }
-
-    const product = new Product({
-      animal_id: req.body?.animal_id,
-      butcher_id: req.body?.butcher_id,
-      expirydate: formattedDate,
-      slaughterdate: slaughterdate.toISOString().slice(0, 10),
-      productid,
-    });
-
     await product.save();
     return res.status(200).json({
       success: true,
@@ -68,7 +25,7 @@ exports.create_Product = async (req, res) => {
   } catch (err) {
     return res.status(400).json({
       success: false,
-      message: err,
+      error: err,
     });
   }
 };
@@ -217,9 +174,15 @@ exports.ProductReport = async (req, res) => {
     if (!animal) {
       // AnimalStatus = false;
       animal = {
-        animal_uuid: "Not Found",
-        animal_dob: "Not Found",
-        breed_name: "Not Found",
+        animal_uuid: "Not found",
+        breed_name: "Not found",
+        animal_dob: "Not found",
+        createdAt: "Not found",
+        animal_breedingStatus: "Not found",
+        animal_healthStatus: "Not found",
+        animal_injuryStatus: "Not found",
+        animal_medication: "Not found",
+        animal_weight: "Not found",
       };
     }
 
@@ -310,7 +273,6 @@ exports.ProductReport = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: Status,
-      // ProductReportResult,
       FilteredReport,
     });
   } catch (err) {
@@ -324,20 +286,26 @@ exports.ProductReport = async (req, res) => {
 
 function filterReport(response) {
   const filteredResponse = {
-    "Farm Name": response.farm.farm_name,
-    "Farm Address": response.farm.farm_address,
-    "Animal TAG": response.animal.animal_uuid,
-    "Animal DOB": response.animal.animal_dob,
+    FarmName: response.farm.farm_name,
+    FarmAddress: response.farm.farm_address,
+    AnimalTAG: response.animal.animal_uuid,
+    AnimalDOB: response.animal.animal_dob,
+    ArrivalTime: response.animal.createdAt,
     Breed: response.animal.breed_name,
-    "Slaughter Name": response.slaughter.name,
-    "Slaughter Address": response.slaughter.address,
-    "Owner Name": response.slaughter.owner_name,
-    "Butcher Name": response.butcher.name,
-    "Butcher ID": response.butcher.nic,
-    "Distributor ID": response.distributor.distributor_uuid,
-    "Distributor Name": response.distributor.name,
-    "Retailor ID": response.retailor.retailor_uuid,
-    "Retailor Name": response.retailor.name,
+    CattleWeight: response.animal.animal_weight,
+    CattleGender: response.animal.animal_breedingStatus,
+    Medication: response.animal.animal_medication,
+    InjuryStatus: response.animal.animal_injuryStatus,
+    HealthStatus: response.animal.animal_healthStatus,
+    SlaughterName: response.slaughter.name,
+    SlaughterAddress: response.slaughter.address,
+    OwnerName: response.slaughter.owner_name,
+    ButcherName: response.butcher.name,
+    ButcherNIC: response.butcher.nic,
+    DistributorReg: response.distributor.distributor_uuid,
+    DistributorName: response.distributor.name,
+    RetailorReg: response.retailor.retailor_uuid,
+    RetailorName: response.retailor.name,
   };
   return filteredResponse;
 }

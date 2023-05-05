@@ -1,5 +1,27 @@
 const { AlchemyProvider } = require("@ethersproject/providers");
 const { ethers } = require("hardhat");
+const { MetaMaskSDK } = require("@metamask/sdk");
+
+const detectProvider = require("@metamask/detect-provider");
+
+async function CreateProvider() {
+  // const provider = await detectProvider();
+  // if (provider) {
+
+  if (typeof window !== "undefined") {
+    const MMSDK = new MetaMaskSDK(options);
+    const ethereum = MMSDK.getProvider();
+
+    // Provider is successfully detected, use it to interact with the blockchain
+    // const network = 'maticmum';
+    // const rpcUrl = 'https://rpc-mumbai.maticvigil.com/';
+    // const chainId = 80001;
+    // const signer = provider.getSigner();
+    // console.log(signer);
+    // return signer;
+  } else {
+  }
+}
 
 API_URL =
   "https://polygon-mumbai.g.alchemy.com/v2/wQervsrXuCr31pfJlVI9CUjh1zXElRWu";
@@ -10,6 +32,16 @@ CONTRACT_ADDRESS = "0x4a970d9b0BACC89e37fdA90364F0a761804C98C2";
 
 // For Hardhat
 const contract = require("../../utils/contracts/artifacts/contracts/meat.sol/Meat.json");
+
+async function getMetaMaskSigner(provider) {
+  if (typeof window.ethereum !== "undefined") {
+    await window.ethereum.enable();
+    const signer = provider.getSigner();
+    return signer;
+  } else {
+    throw new Error("MetaMask not detected");
+  }
+}
 
 exports.retrieveDataBlockchain = async (req, res) => {
   try {
@@ -69,7 +101,7 @@ exports.retrieveDataBlockchain = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message,
+      message: "",
       productInfo,
     });
   } catch (err) {
@@ -77,19 +109,22 @@ exports.retrieveDataBlockchain = async (req, res) => {
     errorMessage = errorMessage + " Invalid QR Code";
     return res.json({
       success: false,
-      message: errorMessage,
+      message: [errorMessage],
     });
   }
 };
 
 exports.createProduct = async (req, res) => {
+  // CreateProvider();
   const ID = req.body?.ProductID;
   const Details = req.body?.ProductDetails;
   const Dates = req.body?.SnEDate;
   try {
     const network = "maticmum";
     const provider = new ethers.providers.AlchemyProvider(network, API_KEY);
+    // const signer = await getMetaMaskSigner(provider);
     const signer = new ethers.Wallet(PRIVATE_KEY, provider);
+
     const MeatContract = new ethers.Contract(
       CONTRACT_ADDRESS,
       contract.abi,
@@ -103,15 +138,14 @@ exports.createProduct = async (req, res) => {
     const Output = { ID, Details, Dates };
     return res.status(200).json({
       success: true,
-      message,
+      message: "",
       data: Output,
     });
   } catch (err) {
     let errorMessage = err?.reason;
     return res.status(400).json({
       success: false,
-      message: err,
-      errorMessage,
+      message: [err, errorMessage],
     });
   }
 };
@@ -142,15 +176,14 @@ exports.updatedistributorinBlockchain = async (req, res) => {
     const Output = { ID, DistributorID };
     return res.status(200).json({
       success: true,
-      message,
+      message: "",
       data: Output,
     });
   } catch (err) {
     let errorMessage = err?.reason;
     return res.status(400).json({
       success: false,
-      message: err,
-      errorMessage,
+      message: [err, errorMessage],
     });
   }
 };
@@ -177,15 +210,14 @@ exports.updateretailorinBlockchain = async (req, res) => {
     const Output = { ID, RetailorID };
     return res.status(200).json({
       success: true,
-      message,
+      message: "",
       data: Output,
     });
   } catch (err) {
     let errorMessage = err?.reason;
     return res.status(400).json({
       success: false,
-      message: err,
-      errorMessage,
+      message: [err, errorMessage],
     });
   }
 };

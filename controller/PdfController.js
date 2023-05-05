@@ -127,6 +127,5 @@ exports.generatePdf = async (req, res) => {
       res.end(download);
     });
   } catch (err) {
-    console.log(err);
   }
 };
