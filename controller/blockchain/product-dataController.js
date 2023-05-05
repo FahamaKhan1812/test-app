@@ -14,28 +14,30 @@ const getDataFromBlockchain = async (req, res) => {
   const myNewContract = new ethers.Contract(contractAddress, abiJson, ether);
   try {
     // const [productDetails, snEDate,recordCreationTime, retailorID,retailorReceiveTime, distributorID,distributorReceiveTime] =
-    const [productDetails, snEDate, retailorID, distributorID] = await myNewContract["retrieve"](productId);
+    const [productDetails, snEDate, retailorID, distributorID] =
+      await myNewContract["retrieve"](productId);
 
     // Splitting the productDetails and SnE Date using ":" as limiter  and assigning it to respective variables.
 
-    const [farmID = "", animalID = "", slaughterHouseID = "", butcherID = ""] = productDetails.split(":");
+    const [farmID = "", animalID = "", slaughterHouseID = "", butcherID = ""] =
+      productDetails.split(":");
     const [slaughterDate = "", expiryDate = ""] = snEDate.split(":");
-    
+
     //converting TimeStamps from uint256 to String
     // const RCTimetemp = new Date(recordCreationTime * 1000); // Convert to milliseconds by multiplying with 1000
     // const CreationTimeString=RCTimetemp.toString();
-    
+
     // const RRTimetemp = new Date(retailorReceiveTime * 1000); // Convert to milliseconds by multiplying with 1000
     // const RetailorTimeString=RRTimetemp.toString();
 
     // const DRTimetemp = new Date(distributorReceiveTime * 1000); // Convert to milliseconds by multiplying with 1000
     // const DistributorTimeString=DRTimetemp.toString();
 
-
     const productInfo = {
       FarmID: farmID !== "" ? farmID : "Not Found",
       AnimalID: animalID !== "" ? animalID : "Not Found",
-      SlaughterHouseID: slaughterHouseID !== "" ? slaughterHouseID : "Not Found",
+      SlaughterHouseID:
+        slaughterHouseID !== "" ? slaughterHouseID : "Not Found",
       ButcherID: butcherID !== "" ? butcherID : "Not Found",
       // CreationTimeString:CreationTimeString !== "" ? CreationTimeString:"Not Found",
       SlaughterDate: slaughterDate !== "" ? slaughterDate : "Not Found",
@@ -46,7 +48,6 @@ const getDataFromBlockchain = async (req, res) => {
       // RetailorTimeString: RetailorTimeString !== "" ? RetailorTimeString:"Not Found",
     };
 
-    console.log(productInfo);
     return res.status(200).json({
       success: true,
       message: [],
