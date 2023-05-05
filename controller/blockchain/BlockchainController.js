@@ -107,10 +107,10 @@ exports.retrieveDataBlockchain = async (req, res) => {
   } catch (err) {
     let errorMessage = err?.reason;
     errorMessage = errorMessage + " Invalid QR Code";
-    return res.json({
+    return res.status(400).json({
       success: false,
       message: errorMessage,
-      error: err
+      error: err,
     });
   }
 };
@@ -178,7 +178,7 @@ exports.updatedistributorinBlockchain = async (req, res) => {
     const Output = { ID, DistributorID };
     return res.status(200).json({
       success: true,
-      message: "",
+      message: [],
       data: Output,
     });
   } catch (err) {
@@ -213,7 +213,7 @@ exports.updateretailorinBlockchain = async (req, res) => {
     const Output = { ID, RetailorID };
     return res.status(200).json({
       success: true,
-      message: "",
+      message: [],
       data: Output,
     });
   } catch (err) {
