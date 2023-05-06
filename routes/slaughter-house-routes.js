@@ -12,12 +12,18 @@ router.post(
 );
 router.get(
   "/getallslaughterhouses",
+  userAuth,
+  checkRole(["superadmin"]),
   SlaughterHouseController.get_slaughterhouses,
 );
 router.get(
   "/getslaughterhousebyid:id",
+  userAuth,
+  checkRole(["slaughterhouseowner", "slaughterhouseuser", "farmowner"]),
   SlaughterHouseController.getSlaughterhouseById,
 );
+
+// Currently not in use
 router.get(
   "/getbutcherbyslaughterhouse/:id",
   SlaughterHouseController.getButchersBySlaughterHouse_uuid,
