@@ -7,7 +7,6 @@ pdfMake.vfs = vfsFonts.pdfMake.vfs;
 pdfMake.vfs = vfsFonts.pdfMake.vfs;
 
 exports.generatePdf = async (req, res) => {
-  console.log("PDF");
   try {
     const ProductCreationTime = req.body?.ProductCreationTime;
     const ProductID = req.body?.ProductID;
@@ -170,7 +169,6 @@ exports.generatePdf = async (req, res) => {
       });
 
       const download = Buffer.from(data.toString("utf-8"), "base64");
-      console.log("End of PDF");
       res.end(download);
     });
   } catch (err) {}
