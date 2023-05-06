@@ -86,7 +86,7 @@ const userLogin = async (userCreds, res) => {
   } else {
     return res.status(403).json({
       //403 = Unauthorized
-      message: "Uncorrect password",
+      message: "Incorrect password",
       success: false,
     });
   }
