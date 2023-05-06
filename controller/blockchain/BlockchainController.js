@@ -114,7 +114,7 @@ exports.retrieveDataBlockchain = async (req, res) => {
     errorMessage = errorMessage + " Invalid QR Code";
     return res.json({
       success: false,
-      message: [errorMessage],
+      message: errorMessage,
     });
   }
 };
