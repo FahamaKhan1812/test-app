@@ -63,7 +63,7 @@ exports.create_Product = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: [],
-      product,
+      data: product,
     });
   } catch (err) {
     return res.status(400).json({
@@ -108,7 +108,7 @@ exports.updateproductdistributorById = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: [],
-      updatedData,
+      data: updatedData,
     });
   } catch (err) {
     return res.status(500).json({
@@ -119,6 +119,7 @@ exports.updateproductdistributorById = async (req, res) => {
   }
 };
 
+// Update Retailor Field:
 exports.updateproductretailorById = async (req, res) => {
   try {
     const updatedData = await Product.findByIdAndUpdate(
@@ -135,7 +136,7 @@ exports.updateproductretailorById = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: [],
-      updatedData,
+      data: updatedData,
     });
   } catch (err) {
     return res.status(500).json({
@@ -194,7 +195,7 @@ exports.getproductById = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: [],
-      product,
+      data: product,
     });
   } catch (err) {
     return res.status(500).json({

@@ -11,6 +11,7 @@ async function CreateProvider() {
   if (typeof window !== "undefined") {
     const MMSDK = new MetaMaskSDK(options);
     const ethereum = MMSDK.getProvider();
+    console.log("ethereum");
 
     // Provider is successfully detected, use it to interact with the blockchain
     // const network = 'maticmum';
@@ -20,6 +21,7 @@ async function CreateProvider() {
     // console.log(signer);
     // return signer;
   } else {
+    console.log("no Provider");
   }
 }
 
@@ -43,7 +45,9 @@ async function getMetaMaskSigner(provider) {
   }
 }
 
+// For Mobile users only to scan QR Code For Prduct details
 exports.retrieveDataBlockchain = async (req, res) => {
+  console.log("in Blockchain");
   try {
     const netObj = {
       name: "maticmum",
@@ -98,6 +102,7 @@ exports.retrieveDataBlockchain = async (req, res) => {
       RetailorTimeString:
         RetailorTimeString !== "" ? RetailorTimeString : "Not Found",
     };
+    console.log("end of block");
 
     return res.status(200).json({
       success: true,
@@ -107,10 +112,9 @@ exports.retrieveDataBlockchain = async (req, res) => {
   } catch (err) {
     let errorMessage = err?.reason;
     errorMessage = errorMessage + " Invalid QR Code";
-    return res.status(400).json({
+    return res.json({
       success: false,
-      message: errorMessage,
-      error: err,
+      message: [errorMessage],
     });
   }
 };
