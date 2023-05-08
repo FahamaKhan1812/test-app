@@ -14,7 +14,7 @@ exports.create_Product = async (req, res) => {
   if (existingProduct) {
     return res.status(400).json({
       success: false,
-      message: "Product with this ID already exists",
+      message: "Not Allowed to create product. If product already exists",
     });
   }
 
