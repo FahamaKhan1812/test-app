@@ -1,5 +1,5 @@
 const Animal = require("../models/Animal");
-
+const Butchers = require("../models/Butcher");
 // Create a new Animal
 exports.create_animal = async (req, res) => {
   const animal = new Animal({
@@ -45,22 +45,35 @@ exports.get_animals = async (req, res) => {
   }
 };
 
-//Get Animal By Id
+// Get Animal By Id
 exports.getanimalById = async (req, res) => {
-  const farm_id = req.query;
+  const farm_Id = req.query;
   try {
-    const animal = await Animal.find(farm_id);
-    if (animal.length === 0) {
+    const animals = await Animal.find(farm_Id);
+    if (animals.length === 0) {
       return res.status(200).json({
         success: true,
         message: "No animal data is found",
         data: [],
       });
     }
+
+    const modifiedAnimalData = await Promise.all(
+      animals.map(async (animal) => {
+        const butcher = await Butchers.findOne({
+          _id: animal.animalSlaughteredByButcherId,
+        });
+        return {
+          ...animal.toObject(),
+          "Slaughtered By": butcher ? butcher.name : null,
+        };
+      }),
+    );
+
     return res.status(200).json({
       success: true,
       message: [],
-      data: animal,
+      data: modifiedAnimalData,
     });
   } catch (err) {
     return res.status(500).json({
@@ -77,7 +90,11 @@ exports.updateAnimalById = async (req, res) => {
   const updatedAnimalData = req.body;
   try {
     const animal = await Animal.findByIdAndUpdate(animal_id, updatedAnimalData);
-    if ( animal.animalSlaughteredStatus === "true" && animal.animalSlaughteredByButcherId ===   animal.animalSlaughteredByButcherId) {
+    if (
+      animal.animalSlaughteredStatus === "true" &&
+      animal.animalSlaughteredByButcherId ===
+        animal.animalSlaughteredByButcherId
+    ) {
       return res.status(403).json({
         message: "Animal has already been slaughtered and cannot be updated",
       });

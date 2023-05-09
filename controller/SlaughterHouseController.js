@@ -8,7 +8,7 @@ exports.create_slaughterhouse = async (req, res) => {
     address: req.body?.address,
     owner_name: req.body?.owner_name,
     capacity: req.body?.capacity,
-    farm_id: req.body?.farm_id,
+    farm_Id: req.body?.farm_Id,
   });
   try {
     await slaughterHouse.save();
