@@ -105,9 +105,7 @@ exports.generatePdf = async (req, res) => {
                 "Slaughter House Name:",
                 { text: `${SlaughterName}`, noWrap: false },
               ],
-
-              [
-                "Slaughter House Address:",
+              [ "Slaughter House Address:",
                 { text: `${SlaughterAddress}`, noWrap: false },
               ],
               ["Owner:", { text: `${OwnerName}`, noWrap: false }],
