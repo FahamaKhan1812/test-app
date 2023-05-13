@@ -61,12 +61,12 @@ exports.generatePdf = async (req, res) => {
           style: "header",
           alignment: "center",
         },
-        {
-          text: "Reporte de inspección\n\n",
-          style: "subheader",
-          alignment: "center",
-        },
-        "El siguiente reporte tiene como objetivo describir los resultados encontrados a partir de la inspección en la fecha específica.",
+        // {
+        //   text: "Reporte de inspección\n\n",
+        //   style: "subheader",
+        //   alignment: "center",
+        // },
+        "The content of this document provides all the necessary information to verify the authenticity of the product in question. It contains details on the product's origin, manufacturing process and other relevant information that can help determine the product's authenticity and provenance.",
         { text: "Authenticity Report", style: "subheader" },
         {
           style: "tableExample",
@@ -105,9 +105,7 @@ exports.generatePdf = async (req, res) => {
                 "Slaughter House Name:",
                 { text: `${SlaughterName}`, noWrap: false },
               ],
-
-              [
-                "Slaughter House Address:",
+              [ "Slaughter House Address:",
                 { text: `${SlaughterAddress}`, noWrap: false },
               ],
               ["Owner:", { text: `${OwnerName}`, noWrap: false }],
