@@ -54,8 +54,8 @@ exports.create_Product = async (req, res) => {
     const product = new Product({
       animal_id: req.body?.animal_id,
       butcher_id: req.body?.butcher_id,
-      expirydate: formattedDate,
-      slaughterdate: slaughterdate.toISOString().slice(0, 10),
+      expirydate: req.body?.expirydate,
+      slaughterdate: formattedDate,
       productid,
     });
 
