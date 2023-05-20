@@ -1,3 +1,4 @@
+const moment =require('moment');
 const Animal = require("../models/Animal");
 const Butchers = require("../models/Butcher");
 // Create a new Animal
@@ -116,6 +117,75 @@ exports.updateAnimalById = async (req, res) => {
       success: false,
       message: ["Server Error try again"],
       error: err,
+    });
+  }
+};
+
+exports.AnimalDataset = async (req, res) => {
+  try {
+    // Retrieve Recent products
+    const RecentAnimals = await Animal.find({
+      farm_Id: req.params.farmID,
+      // animalSlaughteredStatus: false ,
+    }).sort({ updatedAt: -1 }).limit(5);
+
+    // Calculating the start and end dates for the date range
+    const today = moment().startOf('day');
+    const startDate = today.clone().subtract(7, 'days');
+    const endDate = today.clone();
+
+    // Generate an array of dates for the date range
+    const datesRange = [];
+    const currentDate = startDate.clone();
+    while (currentDate.isSameOrBefore(endDate)) {
+      datesRange.push(currentDate.format('YYYY-MM-DD'));
+      currentDate.add(1, 'day');
+    }
+
+    // Retrieve products with count for each day in the date range
+    const AnimalRange = await Animal.aggregate([
+      {
+        $match: {
+          farm_Id: req.params.farmID,
+      animalSlaughteredStatus: false ,
+          updatedAt: { $gte: startDate.toDate(), $lte: endDate.toDate() }
+        }
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$updatedAt" } },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          date: "$_id",
+          count: 1
+        }
+      }
+    ]);
+
+    // Add missing days with count 0 to the AnimalRange array
+    const AnimalRangeWithMissingDays = datesRange.map(date => {
+      const product = AnimalRange.find(p => p.date === date);
+      return {
+        date,
+        count: product ? product.count : 0
+      };
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: [],
+      AnimalRange: AnimalRangeWithMissingDays,
+      RecentAnimals,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'Server Error. Please try again.',
+      error: err.message,
     });
   }
 };
