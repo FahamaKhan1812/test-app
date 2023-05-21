@@ -1,3 +1,5 @@
+
+const moment = require('moment');
 const Farm = require("../models/Farm");
 const Animal = require("../models/Animal");
 const SlaughterHouse = require("../models/SlaughterHouse");
@@ -164,6 +166,74 @@ exports.productbyretailor = async (req, res) => {
   }
 };
 
+exports.retailorDataset = async (req, res) => {
+  try {
+    // Retrieve Recent products
+    const RecentProducts = await Product.find(
+      { retailor: req.params.retailorID })
+      .sort({ updatedAt: -1 })
+      .limit(5);
+
+    // Calculating the start and end dates for the date range
+    const today = moment().startOf('day');
+    const startDate = today.clone().subtract(7, 'days');
+    const endDate = today.clone();
+
+    // Generate an array of dates for the date range
+    const datesRange = [];
+    const currentDate = startDate.clone();
+    while (currentDate.isSameOrBefore(endDate)) {
+      datesRange.push(currentDate.format('YYYY-MM-DD'));
+      currentDate.add(1, 'day');
+    }
+
+    // Retrieve products with count for each day in the date range
+    const productsInRange = await Product.aggregate([
+      {
+        $match: {
+          retailor: req.params.retailorID,
+          updatedAt: { $gte: startDate.toDate(), $lte: endDate.toDate() }
+        }
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$updatedAt" } },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          date: "$_id",
+          count: 1
+        }
+      }
+    ]);
+
+    // Add missing days with count 0 to the productsInRange array
+    const productsInRangeWithMissingDays = datesRange.map(date => {
+      const product = productsInRange.find(p => p.date === date);
+      return {
+        date,
+        count: product ? product.count : 0
+      };
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: [],
+      productsInRange: productsInRangeWithMissingDays,
+      RecentProducts,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'Server Error. Please try again.',
+      error: err.message,
+    });
+  }
+};
+
 exports.productbydistributor = async (req, res) => {
   try {
     const products = await Product.find({
@@ -182,6 +252,79 @@ exports.productbydistributor = async (req, res) => {
     });
   }
 };
+
+exports.distributorDataset = async (req, res) => {
+  try {
+    // Retrieve Recent products
+    const RecentProducts = await Product.find({
+      distributor: req.params.distributorID,
+      retailor: { $exists: false },
+    }).sort({ updatedAt: -1 }).limit(5);
+
+    // Calculating the start and end dates for the date range
+    const today = moment().startOf('day');
+    const startDate = today.clone().subtract(7, 'days');
+    const endDate = today.clone();
+
+    // Generate an array of dates for the date range
+    const datesRange = [];
+    const currentDate = startDate.clone();
+    while (currentDate.isSameOrBefore(endDate)) {
+      datesRange.push(currentDate.format('YYYY-MM-DD'));
+      currentDate.add(1, 'day');
+    }
+
+    // Retrieve products with count for each day in the date range
+    const productsInRange = await Product.aggregate([
+      {
+        $match: {
+          distributor: req.params.distributorID,
+          retailor: { $exists: false },
+          updatedAt: { $gte: startDate.toDate(), $lte: endDate.toDate() }
+        }
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$updatedAt" } },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          date: "$_id",
+          count: 1
+        }
+      }
+    ]);
+
+    // Add missing days with count 0 to the productsInRange array
+    const productsInRangeWithMissingDays = datesRange.map(date => {
+      const product = productsInRange.find(p => p.date === date);
+      return {
+        date,
+        count: product ? product.count : 0
+      };
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: [],
+      productsInRange: productsInRangeWithMissingDays,
+      RecentProducts,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'Server Error. Please try again.',
+      error: err.message,
+    });
+  }
+};
+
+
+
+ 
 
 //Get product By Id
 exports.getproductById = async (req, res) => {
