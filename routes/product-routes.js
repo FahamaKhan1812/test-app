@@ -12,6 +12,8 @@ router.get('/getretailordataset/:retailorID',ProductController.retailorDataset);
 router.get('/getproductbydistributorid/:distributorID', ProductController.productbydistributor);
 router.get('/getdistributordataset/:distributorID', ProductController.distributorDataset);
 
+router.get('/getSlaughterHousedataset/:slaughterhouseID', ProductController.SlaughterHouseDataset);
+
 router.put("/updateproductdistributor/:id",ProductController.updateproductdistributorById);
 router.put("/updateproductretailor/:id",ProductController.updateproductretailorById);
 

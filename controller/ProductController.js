@@ -149,6 +149,7 @@ exports.updateproductretailorById = async (req, res) => {
   }
 };
 
+//Filter products For retailor using retailorID
 exports.productbyretailor = async (req, res) => {
   try {
     const products = await Product.find({ retailor: req.params.retailorID });
@@ -166,20 +167,17 @@ exports.productbyretailor = async (req, res) => {
   }
 };
 
+//DataSet For retailor Dashboard using retailorID
 exports.retailorDataset = async (req, res) => {
   try {
-    // Retrieve Recent products
-    const RecentProducts = await Product.find(
-      { retailor: req.params.retailorID })
-      .sort({ updatedAt: -1 })
-      .limit(5);
+    const RecentProducts = await Product.find({
+      retailor: req.params.retailorID,
+    }).sort({ updatedAt: -1 }).limit(5);
 
-    // Calculating the start and end dates for the date range
-    const today = moment().startOf('day');
-    const startDate = today.clone().subtract(7, 'days');
-    const endDate = today.clone();
+    const dateRange = req.query.dateRange || '1week';
+    const startDate = moment().startOf('day').subtract(getDateRangeOffset(dateRange), 'days');
+    const endDate = moment().startOf('day');
 
-    // Generate an array of dates for the date range
     const datesRange = [];
     const currentDate = startDate.clone();
     while (currentDate.isSameOrBefore(endDate)) {
@@ -187,11 +185,11 @@ exports.retailorDataset = async (req, res) => {
       currentDate.add(1, 'day');
     }
 
-    // Retrieve products with count for each day in the date range
     const productsInRange = await Product.aggregate([
       {
         $match: {
           retailor: req.params.retailorID,
+          retailor: { $exists: false },
           updatedAt: { $gte: startDate.toDate(), $lte: endDate.toDate() }
         }
       },
@@ -210,7 +208,6 @@ exports.retailorDataset = async (req, res) => {
       }
     ]);
 
-    // Add missing days with count 0 to the productsInRange array
     const productsInRangeWithMissingDays = datesRange.map(date => {
       const product = productsInRange.find(p => p.date === date);
       return {
@@ -219,10 +216,19 @@ exports.retailorDataset = async (req, res) => {
       };
     });
 
+    const { x_axis, y_axis } = productsInRangeWithMissingDays.reduce(
+      (result, { date, count }) => {
+        result.x_axis.push(date);
+        result.y_axis.push(count);
+        return result;
+      },
+      { x_axis: [], y_axis: [] }
+    );
+
     return res.status(200).json({
       success: true,
       message: [],
-      productsInRange: productsInRangeWithMissingDays,
+      chart_data: { x_axis, y_axis },
       RecentProducts,
     });
   } catch (err) {
@@ -234,6 +240,7 @@ exports.retailorDataset = async (req, res) => {
   }
 };
 
+//Filter products For distributor using distibutorID
 exports.productbydistributor = async (req, res) => {
   try {
     const products = await Product.find({
@@ -253,20 +260,18 @@ exports.productbydistributor = async (req, res) => {
   }
 };
 
+//DataSet For Distributor Dashboard using DistributorID
 exports.distributorDataset = async (req, res) => {
   try {
-    // Retrieve Recent products
     const RecentProducts = await Product.find({
       distributor: req.params.distributorID,
       retailor: { $exists: false },
     }).sort({ updatedAt: -1 }).limit(5);
 
-    // Calculating the start and end dates for the date range
-    const today = moment().startOf('day');
-    const startDate = today.clone().subtract(7, 'days');
-    const endDate = today.clone();
+    const dateRange = req.query.dateRange || '1week';
+    const startDate = moment().startOf('day').subtract(getDateRangeOffset(dateRange), 'days');
+    const endDate = moment().startOf('day');
 
-    // Generate an array of dates for the date range
     const datesRange = [];
     const currentDate = startDate.clone();
     while (currentDate.isSameOrBefore(endDate)) {
@@ -274,7 +279,6 @@ exports.distributorDataset = async (req, res) => {
       currentDate.add(1, 'day');
     }
 
-    // Retrieve products with count for each day in the date range
     const productsInRange = await Product.aggregate([
       {
         $match: {
@@ -298,7 +302,6 @@ exports.distributorDataset = async (req, res) => {
       }
     ]);
 
-    // Add missing days with count 0 to the productsInRange array
     const productsInRangeWithMissingDays = datesRange.map(date => {
       const product = productsInRange.find(p => p.date === date);
       return {
@@ -307,10 +310,19 @@ exports.distributorDataset = async (req, res) => {
       };
     });
 
+    const { x_axis, y_axis } = productsInRangeWithMissingDays.reduce(
+      (result, { date, count }) => {
+        result.x_axis.push(date);
+        result.y_axis.push(count);
+        return result;
+      },
+      { x_axis: [], y_axis: [] }
+    );
+
     return res.status(200).json({
       success: true,
       message: [],
-      productsInRange: productsInRangeWithMissingDays,
+      chart_data: { x_axis, y_axis },
       RecentProducts,
     });
   } catch (err) {
@@ -322,9 +334,93 @@ exports.distributorDataset = async (req, res) => {
   }
 };
 
+//DataSet For SlaughterHouse Dashboard using slaughterhouseID
+exports.SlaughterHouseDataset = async (req, res) => {
+  const slaughterhouseId = req.params.slaughterhouseID;
+  try {
+    const RecentProducts = await Product.find({
+      productid: { $regex: new RegExp(`:${slaughterhouseId}:`) }
+    }).sort({ updatedAt: -1 }).limit(5);
 
+    // Extract animalId from RecentProducts
+    const animalIds = RecentProducts.map(product => product.productid.split(':')[1]);
+    
+    // Retrieve corresponding animals from Animal model
+    const RecentSlaughters = await Animal.find({ _id: { $in: animalIds } });
 
- 
+    const dateRange = req.query.dateRange || '1week';
+    const startDate = moment().startOf('day').subtract(getDateRangeOffset(dateRange), 'days');
+    const endDate = moment().startOf('day');
+
+    const datesRange = [];
+    const currentDate = startDate.clone();
+    while (currentDate.isSameOrBefore(endDate)) {
+      datesRange.push(currentDate.format('YYYY-MM-DD'));
+      currentDate.add(1, 'day');}
+
+    const productsInRange = await Product.aggregate([
+      {$match: {
+      productid: { $regex: new RegExp(`:${slaughterhouseId}:`) },
+      updatedAt: { $gte: startDate.toDate(), $lte: endDate.toDate() }}
+      },
+      {$group: {
+      _id: { $dateToString: { format: "%Y-%m-%d", date: "$updatedAt" } },
+      count: { $sum: 1 }}},
+      {$project: {
+      _id: 0,
+      date: "$_id",
+      count: 1}}
+      ]);
+
+    const productsInRangeWithMissingDays = datesRange.map(date => {
+      const product = productsInRange.find(p => p.date === date);
+      return {
+        date,
+        count: product ? product.count : 0
+      };
+    });
+
+    const { x_axis, y_axis } = productsInRangeWithMissingDays.reduce(
+      (result, { date, count }) => {
+        result.x_axis.push(date);
+        result.y_axis.push(count);
+        return result;
+      },
+      { x_axis: [], y_axis: [] }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: [],
+      chart_data: { x_axis, y_axis },
+      RecentSlaughters,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'Server Error. Please try again.',
+      error: err.message,
+    });
+  }
+};
+
+// TimeFrame Selection:
+function getDateRangeOffset(dateRange) {
+  switch (dateRange) {
+    case '1week':
+      return 7;
+    case '1month':
+      return 30;
+    case '3months':
+      return 90;
+    case '6months':
+      return 180;
+    case '1year':
+      return 365;
+    default:
+      return 7;
+  }
+}
 
 //Get product By Id
 exports.getproductById = async (req, res) => {

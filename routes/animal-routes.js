@@ -14,7 +14,8 @@ router.post(
 router.get("/getallanimals", AnimalController.get_animals);
 router.get("/getanimalbyfarmid/", AnimalController.getanimalById);
 
-router.get("/AnimalDataset/:farmID",AnimalController.AnimalDataset);
+router.get("/AnimalDatasetfarm/:farmID",AnimalController.AnimalDatasetbyfarmID);
+router.get("/FarmDataset",AnimalController.FarmDatasetSuperAdmin);
 
 // update animal by Id
 router.put(
