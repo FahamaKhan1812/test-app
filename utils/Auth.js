@@ -24,21 +24,30 @@ const userRegister = async (userDetails, role, res) => {
         success: false,
       });
     }
+    const password = await userDetails.password;
 
-    // Get the hashed password
-    const password = await bcrypt.hash(userDetails.password, 12); //Hash of 12 round of salts
-    // create a new user
-    const newUser = new User({
-      ...userDetails,
-      password,
-      role,
-    });
+    // Validate the new password length
+    if (password.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: "Password should be at least 8 characters long",
+      });
+    } else {
+      let password = await bcrypt.hash(userDetails.password, 12); //Hash of 12 round of salts
+      // create a new user
+      const newUser = new User({
+        ...userDetails,
+        user_status: "Active",
+        password,
+        role,
+      });
 
-    await newUser.save();
-    return res.status(201).json({
-      message: "User is saved successfully",
-      success: true,
-    });
+      await newUser.save();
+      return res.status(201).json({
+        message: "User is saved successfully",
+        success: true,
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       message: "Unable to create your account.",
@@ -59,7 +68,13 @@ const userLogin = async (userCreds, res) => {
         success: false,
       });
     }
-
+    const user_status = user.user_status;
+    if (user_status === "Inactive") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied"
+      });
+    }
     //Now check for the password
     let isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {

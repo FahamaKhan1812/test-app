@@ -33,6 +33,10 @@ const UserSchema = new Schema(
     retailerId: {
       type: String,
     },
+    user_status: {
+      type: String,
+      enum: ["Active", "Inactive"],
+    },
     role: {
       type: String,
       enum: [

@@ -10,6 +10,7 @@ async function sterilizeUsersData(arr) {
         role: obj?.role,
         username: obj?.username,
         createdAt: obj?.createdAt,
+        "User Status": obj?.user_status
       };
       newArr.push(newCont);
     });
