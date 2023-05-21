@@ -100,6 +100,55 @@ const userLogin = async (userCreds, res) => {
   }
 };
 
+// Reset Password
+const resetUserPassword = async (req, res) => {
+  const userId = req.body.userId;
+  const currentPassword = req.body.currentPassword;
+  const newPassword = req.body.newPassword;
+
+  try {
+    // Find the user by ID in the database
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    // Compare the current password with the hashed password
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({
+        message: "Incorrect Password",
+        success: false,
+      });
+    }
+    // Validate the new password length
+    if (newPassword.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: "Password should be at least 8 characters long",
+      });
+    }
+    // Generate a new hashed password
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    // Update the user's password in the database
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password Updated Successfully",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err?.message,
+      error: err,
+    });
+  }
+};
+
 const validateUsername = async (username) => {
   let user = await User.findOne({ username });
   return user ? false : true;
