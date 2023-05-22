@@ -8,11 +8,18 @@ router.get('/getproductbyid:id', ProductController.getproductById);
 
 router.get('/getproductbyretailorid/:retailorID', ProductController.productbyretailor);
 router.get('/getretailordataset/:retailorID',ProductController.retailorDataset);
+router.get('/allretailorsdataset',ProductController.SuperAdminRetailerDataset);
+
 
 router.get('/getproductbydistributorid/:distributorID', ProductController.productbydistributor);
 router.get('/getdistributordataset/:distributorID', ProductController.distributorDataset);
+router.get('/alldistributorsdataset', ProductController.SuperAdmindistributorDataset);
 
-router.get('/getSlaughterHousedataset/:slaughterhouseID', ProductController.SlaughterHouseDataset);
+
+
+router.get('/getslaughterhousedataset/:slaughterhouseID', ProductController.SlaughterHouseDataset);
+router.get('/allslaughterhousedataset', ProductController.SuperAdminSlaughterHouseDataset);
+
 
 router.put("/updateproductdistributor/:id",ProductController.updateproductdistributorById);
 router.put("/updateproductretailor/:id",ProductController.updateproductretailorById);
