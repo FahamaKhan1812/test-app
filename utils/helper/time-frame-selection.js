@@ -1,5 +1,5 @@
 //Time frame Selection:
-export function getDateRangeOffset(dateRange) {
+function getDateRangeOffset(dateRange) {
   switch (dateRange) {
     case "1week":
       return 7;
@@ -15,3 +15,4 @@ export function getDateRangeOffset(dateRange) {
       return 7;
   }
 }
+module.exports = getDateRangeOffset;
