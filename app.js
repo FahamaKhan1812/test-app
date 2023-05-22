@@ -12,11 +12,12 @@ app.use(express.json()); // this line is for parsing json body
 app.use(cors());
 
 
+app.use(passport.initialize());
+require("./middleware/passport")(passport);
+
 // for product info from the blockchain:
 app.use("/api/Blockchain", require("./routes/blockchain-routes"));
 
-app.use(passport.initialize());
-require("./middleware/passport")(passport);
 // User Router Middleware
 app.use("/api/user", require("./routes/user-routes"));
 
@@ -41,6 +42,9 @@ app.use("/api/butcher", require("./routes/butcher-routes"));
 app.use("/api/product", require("./routes/product-routes"));
 
 app.use("/api/generate-pdf",require("./routes/pdf-routes"));
+
+// Chart Handler Middleware
+app.use("/api/chart", require("./routes/chart-routes"));
 
 // This will fire whenever an unknown endpoint is hit
 app.all("*", (req, res) => {

@@ -7,7 +7,6 @@ router.get('/getallproducts', ProductController.get_products);
 router.get('/getproductbyid:id', ProductController.getproductById);
 
 router.get('/getproductbyretailorid/:retailorID', ProductController.productbyretailor);
-
 router.get('/getproductbydistributorid/:distributorID', ProductController.productbydistributor);
 
 router.put("/updateproductdistributor/:id",ProductController.updateproductdistributorById);

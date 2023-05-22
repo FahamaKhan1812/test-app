@@ -1,3 +1,4 @@
+
 const Farm = require("../models/Farm");
 const Animal = require("../models/Animal");
 const SlaughterHouse = require("../models/SlaughterHouse");
@@ -147,6 +148,7 @@ exports.updateproductretailorById = async (req, res) => {
   }
 };
 
+//Filter products For retailor using retailorID
 exports.productbyretailor = async (req, res) => {
   try {
     const products = await Product.find({ retailor: req.params.retailorID });
@@ -164,6 +166,7 @@ exports.productbyretailor = async (req, res) => {
   }
 };
 
+//Filter products For distributor using distibutorID
 exports.productbydistributor = async (req, res) => {
   try {
     const products = await Product.find({
