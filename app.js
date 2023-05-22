@@ -43,7 +43,7 @@ app.use("/api/product", require("./routes/product-routes"));
 
 app.use("/api/generate-pdf",require("./routes/pdf-routes"));
 
-// User Router Middleware
+// Chart Handler Middleware
 app.use("/api/chart", require("./routes/chart-routes"));
 
 // This will fire whenever an unknown endpoint is hit
