@@ -71,3 +71,33 @@ exports.getUserById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Update User by their Id
+exports.updateUserById = async (req, res) => {
+  const { _id, userStatus, username, email } = req.body;
+
+  try {
+    const user = await User.findById(_id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    user.user_status = userStatus || user.user_status;
+    user.username = username || user.username;
+    user.email = email || user.email;
+    await user.save();
+    res.json({
+      success: true,
+      message: "User information updated successfully.",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      error: error.message,
+    });
+  }
+};

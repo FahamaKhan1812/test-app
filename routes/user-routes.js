@@ -8,6 +8,7 @@ const {
   userLogin,
   checkRole,
   userRegister,
+  resetUserPassword,
 } = require("../utils/Auth");
 
 const User = require("../models/User");
@@ -62,4 +63,15 @@ router.get(
   checkRole(["superadmin","farmowner", "slaughterhouseowner", "retailer", "distributor"]),
   UserController.getUserById,
 );
+
+// Update User 
+router.put(
+  '/updateuser',
+  userAuth,
+  checkRole(["superadmin","farmowner", "slaughterhouseowner", "retailer", "distributor"]),
+  UserController.updateUserById
+)
+
+// Reset password
+router.post("/restpassword", resetUserPassword);
 module.exports = router;

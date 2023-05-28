@@ -1,5 +1,5 @@
 const { AlchemyProvider } = require("@ethersproject/providers");
-const { ethers } = require("hardhat");
+const { ethers } = require("ethers");
 
 API_URL =
   "https://polygon-mumbai.g.alchemy.com/v2/wQervsrXuCr31pfJlVI9CUjh1zXElRWu";

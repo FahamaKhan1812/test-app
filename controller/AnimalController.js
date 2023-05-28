@@ -1,5 +1,6 @@
 const Animal = require("../models/Animal");
 const Butchers = require("../models/Butcher");
+
 // Create a new Animal
 exports.create_animal = async (req, res) => {
   const animal = new Animal({
@@ -119,3 +120,6 @@ exports.updateAnimalById = async (req, res) => {
     });
   }
 };
+
+
+

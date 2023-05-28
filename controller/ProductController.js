@@ -24,7 +24,7 @@ exports.create_Product = async (req, res) => {
   const month = String(currentDate.getMonth() + 1).padStart(2, "0");
   const day = String(currentDate.getDate()).padStart(2, "0");
 
-  const formattedDate = `${year}-${month}-${day}`;
+  const slaughteredFormattedDate = `${year}-${month}-${day}`;
 
   if (slaughterdate.toDateString() !== currentDate.toDateString()) {
     return res.status(400).json({
@@ -147,6 +147,7 @@ exports.updateproductretailorById = async (req, res) => {
   }
 };
 
+//Filter products For retailor using retailorID
 exports.productbyretailor = async (req, res) => {
   try {
     const products = await Product.find({ retailor: req.params.retailorID });
@@ -164,20 +165,53 @@ exports.productbyretailor = async (req, res) => {
   }
 };
 
+//Filter products For distributor using distibutorID
 exports.productbydistributor = async (req, res) => {
   try {
     const products = await Product.find({
       distributor: req.params.distributorID,
-    });
+    }).lean();
+
+    if (products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No products found for the specified distributor.",
+      });
+    }
+    let result = [];
+    // Retrieve and assign farm details for each product
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+      const animal = await Animal.findById(product.animal_id).lean();
+      const farm = await Farm.findById(animal.farm_Id).lean();
+      const slaughterhouse = await SlaughterHouse.findOne({
+        farm_Id: animal.farm_Id,
+      }).lean();
+      product.farm = farm;
+      product.slaughterhouse = slaughterhouse;
+
+      const combinedData = {
+        D_Id: product.distributor,
+        "Expiry Date": product.expirydate,
+        "Slaughtered Date": product.slaughterdate,
+        "Farm Name": farm.farm_name,
+        "Farm Address": farm.farm_address,
+        "Slaughter House Name": slaughterhouse.name,
+        "Slaughter House Address": slaughterhouse.address,
+        "Slaughter House Owner Name": slaughterhouse.owner_name,
+      };
+
+      result.push(combinedData);
+    }
     return res.status(200).json({
       success: true,
       message: [],
-      products,
+      data: result,
     });
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: "Server Error try again",
+      message: "Server Error. Please try again.",
       error: err,
     });
   }
