@@ -75,3 +75,13 @@ router.put(
 // Reset password
 router.post("/restpassword", resetUserPassword);
 module.exports = router;
+
+// new distributor route
+router.post(
+  "/createnewdistributor",
+  userAuth,
+  checkRole(["superadmin"]),
+  async (req, res) => {
+    await userRegister(req.body, "distributor", res);
+  },
+); 
