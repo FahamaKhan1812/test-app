@@ -1,4 +1,6 @@
 const Distributor = require("../models/Distributor");
+const User = require("../models/User");
+const sterilizeUsersData = require("../utils/helper/sterilize.user.response");
 
 //  Create a new distributor
 exports.create_distributor = async (req, res) => {
@@ -26,16 +28,25 @@ exports.create_distributor = async (req, res) => {
 // Get All distributors
 exports.get_distributors = async (req, res) => {
   try {
-    const distributors = await Distributor.find();
-    return res.status(200).json({
-      success: true,
-      message: [],
-      distributors,
-    });
+    const distributorUsers =  await User.find({ role: "distributor" });
+    if(distributorUsers.length === 0) {
+     return res.status(200).json({
+       success: true,
+       message: "No information available",
+     }); 
+    }
+    if (distributorUsers.length !== 0) {
+      const m = await sterilizeUsersData(distributorUsers);
+      return res.status(200).json({
+        success: true,
+        message: [],
+        data: m,
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: ["Server Error try again"],
+      message: "Server error try again",
       error: err,
     });
   }
