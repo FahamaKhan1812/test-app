@@ -178,7 +178,6 @@ exports.productbydistributor = async (req, res) => {
         message: "No products found for the specified distributor.",
       });
     }
-    console.log(products.length);
     let result = [];
     // Retrieve and assign farm details for each product
     for (let i = 0; i < products.length; i++) {
