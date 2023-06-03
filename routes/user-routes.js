@@ -85,3 +85,13 @@ router.post(
     await userRegister(req.body, "distributor", res);
   },
 ); 
+
+// new retailer route
+router.post(
+  "/createnewdretailer",
+  userAuth,
+  checkRole(["superadmin"]),
+  async (req, res) => {
+    await userRegister(req.body, "retailer", res);
+  },
+); 
