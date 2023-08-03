@@ -7,7 +7,7 @@ const Distributor = require("../models/Distributor");
 const Retailor = require("../models/Retailor");
 
 // Create a new Product
-exports.createProductnew = async (req, res) => {
+exports.createProduct = async (req, res) => {
   const { productid, slaughterdate, expirydate, animal_id, butcher_id } =
     req.body;
 
