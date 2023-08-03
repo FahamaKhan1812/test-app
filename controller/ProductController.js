@@ -75,6 +75,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 
+
 // Get All product
 exports.get_products = async (req, res) => {
   try {
