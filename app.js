@@ -4,7 +4,7 @@ const passport = require("passport");
 const cors = require("cors");
 
 const { success, error } = require("consola");
-//connect to mongodb server
+//connect to mongoDB server
 const dbURI =
   "mongodb+srv://fahama:YviAIPJlQUwbmwW1@final-year-project.3wxb73f.mongodb.net/FYP";
 const app = express();
