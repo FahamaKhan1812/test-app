@@ -7,68 +7,70 @@ const Distributor = require("../models/Distributor");
 const Retailor = require("../models/Retailor");
 
 // Create a new Product
-exports.create_Product = async (req, res) => {
-  const productid = req.body?.productid;
-  const existingProduct = await Product.findOne({ productid });
+exports.createProduct = async (req, res) => {
+  const { productid, slaughterdate, expirydate, animal_id, butcher_id } =
+    req.body;
 
-  if (existingProduct) {
-    return res.status(400).json({
-      success: false,
-      message: "Not Allowed to create product. If product already exists",
-    });
-  }
-
-  const slaughterdate = new Date(req.body?.slaughterdate.replace(/-/g, "/"));
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-  const day = String(currentDate.getDate()).padStart(2, "0");
-
-  const slaughteredFormattedDate = `${year}-${month}-${day}`;
-
-  if (slaughterdate.toDateString() !== currentDate.toDateString()) {
-    return res.status(400).json({
-      success: false,
-      message: "Slaughter date must be the current date",
-    });
-  }
-
-  const expirydate = new Date(req.body?.expirydate.replace(/-/g, "/"));
-
-  if (expirydate < currentDate) {
-    return res.status(400).json({
-      success: false,
-      message: "Expiry date cannot be a past date",
-    });
-  }
   try {
-    const animal = await Animal.findOne({ _id: req.body?.animal_id });
-
-    if (!animal || animal.animalSlaughteredStatus !== "true") {
+    // Check if the product with the same productid already exists
+    const existingProduct = await Product.findOne({ productid });
+    if (existingProduct) {
       return res.status(400).json({
         success: false,
-        message: "Animal slaughter status is false",
+        message: "Product with the given productid already exists.",
       });
     }
 
+    // Check if the slaughterdate is the current date
+    const currentDate = new Date();
+    const formattedCurrentDate = currentDate.toISOString().slice(0, 10);
+    if (slaughterdate !== formattedCurrentDate) {
+      return res.status(400).json({
+        success: false,
+        message: "Slaughter date must be the current date.",
+      });
+    }
+
+    // Check if the expirydate is in the future
+    const formattedExpiryDate = new Date(expirydate);
+    if (formattedExpiryDate < currentDate) {
+      return res.status(400).json({
+        success: false,
+        message: "Expiry date cannot be a past date.",
+      });
+    }
+
+    // Check if the animal exists and its slaughter status is true
+    const animal = await Animal.findOne({ _id: animal_id });
+    if (!animal || !animal.animalSlaughteredStatus) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Animal slaughter status is false or the animal does not exist.",
+      });
+    }
+
+    // Create the product
     const product = new Product({
-      animal_id: req.body?.animal_id,
-      butcher_id: req.body?.butcher_id,
-      expirydate: req.body?.expirydate,
-      slaughterdate: formattedDate,
+      animal_id,
+      butcher_id,
+      expirydate: formattedExpiryDate,
+      slaughterdate,
       productid,
     });
 
     await product.save();
+
     return res.status(200).json({
       success: true,
-      message: [],
+      message: "Product created successfully.",
       data: product,
     });
   } catch (err) {
-    return res.status(400).json({
+    return res.status(500).json({
       success: false,
-      error: err,
+      message: "Internal server error.",
+      error: err.message,
     });
   }
 };
